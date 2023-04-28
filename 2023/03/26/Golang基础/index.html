@@ -1,0 +1,3671 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+
+
+
+
+  
+  
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":{"disqus":{"text":"Load Disqus","order":-1},"gitalk":{"order":-2}}},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":true,"preload":true},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="格式化输出整数格式化   格式 描述    %b 整型以二进制方式显示   %o 整型以八进制方式显示   %d 整型以十进制方式显示   %x 整型以十六进制方式显示   %X 整型以十六进制、字母大写方式显示   %c 相应Unicode码点所表示的字符   %U Unicode 字符, Unicode格式：123，等同于 “U+007B”">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Golang基础">
+<meta property="og:url" content="http://example.com/2023/03/26/Golang%E5%9F%BA%E7%A1%80/index.html">
+<meta property="og:site_name" content="StarrySkyDreamer">
+<meta property="og:description" content="格式化输出整数格式化   格式 描述    %b 整型以二进制方式显示   %o 整型以八进制方式显示   %d 整型以十进制方式显示   %x 整型以十六进制方式显示   %X 整型以十六进制、字母大写方式显示   %c 相应Unicode码点所表示的字符   %U Unicode 字符, Unicode格式：123，等同于 “U+007B”">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-03-26T00:00:00.000Z">
+<meta property="article:modified_time" content="2023-04-26T06:18:31.045Z">
+<meta property="article:author" content="StarrySky">
+<meta property="article:tag" content="Go">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2023/03/26/Golang%E5%9F%BA%E7%A1%80/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Golang基础 | StarrySkyDreamer</title>
+  
+
+
+
+
+
+
+  <style>:root {
+  --body-bg-color: #eee;
+  --content-bg-color: #fff;
+  --card-bg-color: #f5f5f5;
+  --text-color: #555;
+  --blockquote-color: #666;
+  --link-color: #555;
+  --link-hover-color: #222;
+  --brand-color: #fff;
+  --brand-hover-color: #fff;
+  --table-row-odd-bg-color: #f9f9f9;
+  --table-row-hover-bg-color: #f5f5f5;
+  --menu-item-bg-color: #f5f5f5;
+  --btn-default-bg: #fff;
+  --btn-default-color: #555;
+  --btn-default-border-color: #555;
+  --btn-default-hover-bg: #222;
+  --btn-default-hover-color: #fff;
+  --btn-default-hover-border-color: #222;
+}
+html {
+  line-height: 1.15; /* 1 */
+  -webkit-text-size-adjust: 100%; /* 2 */
+}
+body {
+  margin: 0;
+}
+main {
+  display: block;
+}
+h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+hr {
+  box-sizing: content-box; /* 1 */
+  height: 0; /* 1 */
+  overflow: visible; /* 2 */
+}
+pre {
+  font-family: monospace, monospace; /* 1 */
+  font-size: 1em; /* 2 */
+}
+a {
+  background: transparent;
+}
+abbr[title] {
+  border-bottom: none; /* 1 */
+  text-decoration: underline; /* 2 */
+  text-decoration: underline dotted; /* 2 */
+}
+b,
+strong {
+  font-weight: bolder;
+}
+code,
+kbd,
+samp {
+  font-family: monospace, monospace; /* 1 */
+  font-size: 1em; /* 2 */
+}
+small {
+  font-size: 80%;
+}
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+sub {
+  bottom: -0.25em;
+}
+sup {
+  top: -0.5em;
+}
+img {
+  border-style: none;
+}
+button,
+input,
+optgroup,
+select,
+textarea {
+  font-family: inherit; /* 1 */
+  font-size: 100%; /* 1 */
+  line-height: 1.15; /* 1 */
+  margin: 0; /* 2 */
+}
+button,
+input {
+/* 1 */
+  overflow: visible;
+}
+button,
+select {
+/* 1 */
+  text-transform: none;
+}
+button,
+[type='button'],
+[type='reset'],
+[type='submit'] {
+  -webkit-appearance: button;
+}
+button::-moz-focus-inner,
+[type='button']::-moz-focus-inner,
+[type='reset']::-moz-focus-inner,
+[type='submit']::-moz-focus-inner {
+  border-style: none;
+  padding: 0;
+}
+button:-moz-focusring,
+[type='button']:-moz-focusring,
+[type='reset']:-moz-focusring,
+[type='submit']:-moz-focusring {
+  outline: 1px dotted ButtonText;
+}
+fieldset {
+  padding: 0.35em 0.75em 0.625em;
+}
+legend {
+  box-sizing: border-box; /* 1 */
+  color: inherit; /* 2 */
+  display: table; /* 1 */
+  max-width: 100%; /* 1 */
+  padding: 0; /* 3 */
+  white-space: normal; /* 1 */
+}
+progress {
+  vertical-align: baseline;
+}
+textarea {
+  overflow: auto;
+}
+[type='checkbox'],
+[type='radio'] {
+  box-sizing: border-box; /* 1 */
+  padding: 0; /* 2 */
+}
+[type='number']::-webkit-inner-spin-button,
+[type='number']::-webkit-outer-spin-button {
+  height: auto;
+}
+[type='search'] {
+  outline-offset: -2px; /* 2 */
+  -webkit-appearance: textfield; /* 1 */
+}
+[type='search']::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+::-webkit-file-upload-button {
+  font: inherit; /* 2 */
+  -webkit-appearance: button; /* 1 */
+}
+details {
+  display: block;
+}
+summary {
+  display: list-item;
+}
+template {
+  display: none;
+}
+[hidden] {
+  display: none;
+}
+::selection {
+  background: #262a30;
+  color: #eee;
+}
+html,
+body {
+  height: 100%;
+}
+body {
+  background: var(--body-bg-color);
+  color: var(--text-color);
+  font-family: 'Lato', "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: 1em;
+  line-height: 2;
+}
+@media (max-width: 991px) {
+  body {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Lato', "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-weight: bold;
+  line-height: 1.5;
+  margin: 20px 0 15px;
+}
+h1 {
+  font-size: 1.5em;
+}
+h2 {
+  font-size: 1.375em;
+}
+h3 {
+  font-size: 1.25em;
+}
+h4 {
+  font-size: 1.125em;
+}
+h5 {
+  font-size: 1em;
+}
+h6 {
+  font-size: 0.875em;
+}
+p {
+  margin: 0 0 20px 0;
+}
+a,
+span.exturl {
+  border-bottom: 1px solid #999;
+  color: var(--link-color);
+  outline: 0;
+  text-decoration: none;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  cursor: pointer;
+}
+a:hover,
+span.exturl:hover {
+  border-bottom-color: var(--link-hover-color);
+  color: var(--link-hover-color);
+}
+iframe,
+img,
+video {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 100%;
+}
+hr {
+  background-image: repeating-linear-gradient(-45deg, #ddd, #ddd 4px, transparent 4px, transparent 8px);
+  border: 0;
+  height: 3px;
+  margin: 40px 0;
+}
+blockquote {
+  border-left: 4px solid #ddd;
+  color: var(--blockquote-color);
+  margin: 0;
+  padding: 0 15px;
+}
+blockquote cite::before {
+  content: '-';
+  padding: 0 5px;
+}
+dt {
+  font-weight: bold;
+}
+dd {
+  margin: 0;
+  padding: 0;
+}
+kbd {
+  background-color: #f5f5f5;
+  background-image: linear-gradient(#eee, #fff, #eee);
+  border: 1px solid #ccc;
+  border-radius: 0.2em;
+  box-shadow: 0.1em 0.1em 0.2em rgba(0,0,0,0.1);
+  color: #555;
+  font-family: inherit;
+  padding: 0.1em 0.3em;
+  white-space: nowrap;
+}
+.table-container {
+  overflow: auto;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  font-size: 0.875em;
+  margin: 0 0 20px 0;
+  width: 100%;
+}
+tbody tr:nth-of-type(odd) {
+  background: var(--table-row-odd-bg-color);
+}
+tbody tr:hover {
+  background: var(--table-row-hover-bg-color);
+}
+caption,
+th,
+td {
+  font-weight: normal;
+  padding: 8px;
+  vertical-align: middle;
+}
+th,
+td {
+  border: 1px solid #ddd;
+  border-bottom: 3px solid #ddd;
+}
+th {
+  font-weight: 700;
+  padding-bottom: 10px;
+}
+td {
+  border-bottom-width: 1px;
+}
+.btn {
+  background: var(--btn-default-bg);
+  border: 2px solid var(--btn-default-border-color);
+  border-radius: 2px;
+  color: var(--btn-default-color);
+  display: inline-block;
+  font-size: 0.875em;
+  line-height: 2;
+  padding: 0 20px;
+  text-decoration: none;
+  transition-property: background-color;
+  transition-delay: 0s;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-in-out;
+}
+.btn:hover {
+  background: var(--btn-default-hover-bg);
+  border-color: var(--btn-default-hover-border-color);
+  color: var(--btn-default-hover-color);
+}
+.btn + .btn {
+  margin: 0 0 8px 8px;
+}
+.btn .fa-fw {
+  text-align: left;
+  width: 1.285714285714286em;
+}
+.toggle {
+  line-height: 0;
+}
+.toggle .toggle-line {
+  background: #fff;
+  display: inline-block;
+  height: 2px;
+  left: 0;
+  position: relative;
+  top: 0;
+  transition: all 0.4s;
+  vertical-align: top;
+  width: 100%;
+}
+.toggle .toggle-line:not(:first-child) {
+  margin-top: 3px;
+}
+.toggle.toggle-arrow .toggle-line-first {
+  left: 50%;
+  top: 2px;
+  transform: rotate(45deg);
+  width: 50%;
+}
+.toggle.toggle-arrow .toggle-line-middle {
+  left: 2px;
+  width: 90%;
+}
+.toggle.toggle-arrow .toggle-line-last {
+  left: 50%;
+  top: -2px;
+  transform: rotate(-45deg);
+  width: 50%;
+}
+.toggle.toggle-close .toggle-line-first {
+  transform: rotate(-45deg);
+  top: 5px;
+}
+.toggle.toggle-close .toggle-line-middle {
+  opacity: 0;
+}
+.toggle.toggle-close .toggle-line-last {
+  transform: rotate(45deg);
+  top: -5px;
+}
+.highlight-container {
+  position: relative;
+}
+.highlight-container:hover .copy-btn,
+.highlight-container .copy-btn:focus {
+  opacity: 1;
+}
+.copy-btn {
+  color: #333;
+  cursor: pointer;
+  line-height: 1.6;
+  opacity: 0;
+  padding: 2px 6px;
+  position: absolute;
+  transition-delay: 0s;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-in-out;
+  color: #fff;
+  font-size: 14px;
+  right: 0;
+  top: 2px;
+}
+.highlight-container {
+  background: #21252b;
+  border-radius: 5px;
+  box-shadow: 0 10px 30px 0 rgba(0,0,0,0.4);
+  padding-top: 30px;
+}
+.highlight-container::before {
+  background: #fc625d;
+  border-radius: 50%;
+  box-shadow: 20px 0 #fdbc40, 40px 0 #35cd4b;
+  content: ' ';
+  height: 12px;
+  left: 12px;
+  margin-top: -20px;
+  position: absolute;
+  width: 12px;
+}
+.highlight-container .highlight {
+  border-radius: 0 0 5px 5px;
+}
+.highlight-container .highlight .table-container {
+  border-radius: 0 0 5px 5px;
+}
+.highlight,
+pre {
+  background: #f7f7f7;
+  color: #4d4d4c;
+  line-height: 1.6;
+  margin: 0 auto 20px;
+}
+pre,
+code {
+  font-family: consolas, Menlo, monospace, "PingFang SC", "Microsoft YaHei";
+}
+code {
+  background: #eee;
+  border-radius: 3px;
+  color: #555;
+  padding: 2px 4px;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+.highlight *::selection {
+  background: #d6d6d6;
+}
+.highlight pre {
+  border: 0;
+  margin: 0;
+  padding: 10px 0;
+}
+.highlight table {
+  border: 0;
+  margin: 0;
+  width: auto;
+}
+.highlight td {
+  border: 0;
+  padding: 0;
+}
+.highlight figcaption {
+  background: #eff2f3;
+  color: #4d4d4c;
+  display: flex;
+  font-size: 0.875em;
+  justify-content: space-between;
+  line-height: 1.2;
+  padding: 0.5em;
+}
+.highlight figcaption a {
+  color: #4d4d4c;
+}
+.highlight figcaption a:hover {
+  border-bottom-color: #4d4d4c;
+}
+.highlight .gutter {
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.highlight .gutter pre {
+  background: #eff2f3;
+  color: #869194;
+  padding-left: 10px;
+  padding-right: 10px;
+  text-align: right;
+}
+.highlight .code pre {
+  background: #f7f7f7;
+  padding-left: 10px;
+  width: 100%;
+}
+.gist table {
+  width: auto;
+}
+.gist table td {
+  border: 0;
+}
+pre {
+  overflow: auto;
+  padding: 10px;
+}
+pre code {
+  background: none;
+  color: #4d4d4c;
+  font-size: 0.875em;
+  padding: 0;
+  text-shadow: none;
+}
+pre .deletion {
+  background: #fdd;
+}
+pre .addition {
+  background: #dfd;
+}
+pre .meta {
+  color: #eab700;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+pre .comment {
+  color: #8e908c;
+}
+pre .variable,
+pre .attribute,
+pre .tag,
+pre .name,
+pre .regexp,
+pre .ruby .constant,
+pre .xml .tag .title,
+pre .xml .pi,
+pre .xml .doctype,
+pre .html .doctype,
+pre .css .id,
+pre .css .class,
+pre .css .pseudo {
+  color: #c82829;
+}
+pre .number,
+pre .preprocessor,
+pre .built_in,
+pre .builtin-name,
+pre .literal,
+pre .params,
+pre .constant,
+pre .command {
+  color: #f5871f;
+}
+pre .ruby .class .title,
+pre .css .rules .attribute,
+pre .string,
+pre .symbol,
+pre .value,
+pre .inheritance,
+pre .header,
+pre .ruby .symbol,
+pre .xml .cdata,
+pre .special,
+pre .formula {
+  color: #718c00;
+}
+pre .title,
+pre .css .hexcolor {
+  color: #3e999f;
+}
+pre .function,
+pre .python .decorator,
+pre .python .title,
+pre .ruby .function .title,
+pre .ruby .title .keyword,
+pre .perl .sub,
+pre .javascript .title,
+pre .coffeescript .title {
+  color: #4271ae;
+}
+pre .keyword,
+pre .javascript .function {
+  color: #8959a8;
+}
+.blockquote-center {
+  border-left: none;
+  margin: 40px 0;
+  padding: 0;
+  position: relative;
+  text-align: center;
+}
+.blockquote-center .fa {
+  display: block;
+  opacity: 0.6;
+  position: absolute;
+  width: 100%;
+}
+.blockquote-center .fa-quote-left {
+  border-top: 1px solid #ccc;
+  text-align: left;
+  top: -20px;
+}
+.blockquote-center .fa-quote-right {
+  border-bottom: 1px solid #ccc;
+  text-align: right;
+  bottom: -20px;
+}
+.blockquote-center p,
+.blockquote-center div {
+  text-align: center;
+}
+.post-body .group-picture img {
+  margin: 0 auto;
+  padding: 0 3px;
+}
+.group-picture-row {
+  margin-bottom: 6px;
+  overflow: hidden;
+}
+.group-picture-column {
+  float: left;
+  margin-bottom: 10px;
+}
+.post-body .label {
+  color: #555;
+  display: inline;
+  padding: 0 2px;
+}
+.post-body .label.default {
+  background: #f0f0f0;
+}
+.post-body .label.primary {
+  background: #efe6f7;
+}
+.post-body .label.info {
+  background: #e5f2f8;
+}
+.post-body .label.success {
+  background: #e7f4e9;
+}
+.post-body .label.warning {
+  background: #fcf6e1;
+}
+.post-body .label.danger {
+  background: #fae8eb;
+}
+.post-body .tabs {
+  margin-bottom: 20px;
+}
+.post-body .tabs,
+.tabs-comment {
+  display: block;
+  padding-top: 10px;
+  position: relative;
+}
+.post-body .tabs ul.nav-tabs,
+.tabs-comment ul.nav-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+  margin-bottom: -1px;
+  padding: 0;
+}
+@media (max-width: 413px) {
+  .post-body .tabs ul.nav-tabs,
+  .tabs-comment ul.nav-tabs {
+    display: block;
+    margin-bottom: 5px;
+  }
+}
+.post-body .tabs ul.nav-tabs li.tab,
+.tabs-comment ul.nav-tabs li.tab {
+  border-bottom: 1px solid #ddd;
+  border-left: 1px solid transparent;
+  border-right: 1px solid transparent;
+  border-top: 3px solid transparent;
+  flex-grow: 1;
+  list-style-type: none;
+  border-radius: 0 0 0 0;
+}
+@media (max-width: 413px) {
+  .post-body .tabs ul.nav-tabs li.tab,
+  .tabs-comment ul.nav-tabs li.tab {
+    border-bottom: 1px solid transparent;
+    border-left: 3px solid transparent;
+    border-right: 1px solid transparent;
+    border-top: 1px solid transparent;
+  }
+}
+@media (max-width: 413px) {
+  .post-body .tabs ul.nav-tabs li.tab,
+  .tabs-comment ul.nav-tabs li.tab {
+    border-radius: 0;
+  }
+}
+.post-body .tabs ul.nav-tabs li.tab a,
+.tabs-comment ul.nav-tabs li.tab a {
+  border-bottom: initial;
+  display: block;
+  line-height: 1.8;
+  outline: 0;
+  padding: 0.25em 0.75em;
+  text-align: center;
+  transition-delay: 0s;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-out;
+}
+.post-body .tabs ul.nav-tabs li.tab a i,
+.tabs-comment ul.nav-tabs li.tab a i {
+  width: 1.285714285714286em;
+}
+.post-body .tabs ul.nav-tabs li.tab.active,
+.tabs-comment ul.nav-tabs li.tab.active {
+  border-bottom: 1px solid transparent;
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-top: 3px solid #fc6423;
+}
+@media (max-width: 413px) {
+  .post-body .tabs ul.nav-tabs li.tab.active,
+  .tabs-comment ul.nav-tabs li.tab.active {
+    border-bottom: 1px solid #ddd;
+    border-left: 3px solid #fc6423;
+    border-right: 1px solid #ddd;
+    border-top: 1px solid #ddd;
+  }
+}
+.post-body .tabs ul.nav-tabs li.tab.active a,
+.tabs-comment ul.nav-tabs li.tab.active a {
+  color: var(--link-color);
+  cursor: default;
+}
+.post-body .tabs .tab-content .tab-pane,
+.tabs-comment .tab-content .tab-pane {
+  border: 1px solid #ddd;
+  border-top: 0;
+  padding: 20px 20px 0 20px;
+  border-radius: 0;
+}
+.post-body .tabs .tab-content .tab-pane:not(.active),
+.tabs-comment .tab-content .tab-pane:not(.active) {
+  display: none;
+}
+.post-body .tabs .tab-content .tab-pane.active,
+.tabs-comment .tab-content .tab-pane.active {
+  display: block;
+}
+.post-body .tabs .tab-content .tab-pane.active:nth-of-type(1),
+.tabs-comment .tab-content .tab-pane.active:nth-of-type(1) {
+  border-radius: 0 0 0 0;
+}
+@media (max-width: 413px) {
+  .post-body .tabs .tab-content .tab-pane.active:nth-of-type(1),
+  .tabs-comment .tab-content .tab-pane.active:nth-of-type(1) {
+    border-radius: 0;
+  }
+}
+.post-body .note {
+  border-radius: 3px;
+  margin-bottom: 20px;
+  padding: 1em;
+  position: relative;
+  border: 1px solid #eee;
+  border-left-width: 5px;
+}
+.post-body .note h2,
+.post-body .note h3,
+.post-body .note h4,
+.post-body .note h5,
+.post-body .note h6 {
+  margin-top: 0;
+  border-bottom: initial;
+  margin-bottom: 0;
+  padding-top: 0;
+}
+.post-body .note p:first-child,
+.post-body .note ul:first-child,
+.post-body .note ol:first-child,
+.post-body .note table:first-child,
+.post-body .note pre:first-child,
+.post-body .note blockquote:first-child,
+.post-body .note img:first-child {
+  margin-top: 0;
+}
+.post-body .note p:last-child,
+.post-body .note ul:last-child,
+.post-body .note ol:last-child,
+.post-body .note table:last-child,
+.post-body .note pre:last-child,
+.post-body .note blockquote:last-child,
+.post-body .note img:last-child {
+  margin-bottom: 0;
+}
+.post-body .note.default {
+  border-left-color: #777;
+}
+.post-body .note.default h2,
+.post-body .note.default h3,
+.post-body .note.default h4,
+.post-body .note.default h5,
+.post-body .note.default h6 {
+  color: #777;
+}
+.post-body .note.primary {
+  border-left-color: #6f42c1;
+}
+.post-body .note.primary h2,
+.post-body .note.primary h3,
+.post-body .note.primary h4,
+.post-body .note.primary h5,
+.post-body .note.primary h6 {
+  color: #6f42c1;
+}
+.post-body .note.info {
+  border-left-color: #428bca;
+}
+.post-body .note.info h2,
+.post-body .note.info h3,
+.post-body .note.info h4,
+.post-body .note.info h5,
+.post-body .note.info h6 {
+  color: #428bca;
+}
+.post-body .note.success {
+  border-left-color: #5cb85c;
+}
+.post-body .note.success h2,
+.post-body .note.success h3,
+.post-body .note.success h4,
+.post-body .note.success h5,
+.post-body .note.success h6 {
+  color: #5cb85c;
+}
+.post-body .note.warning {
+  border-left-color: #f0ad4e;
+}
+.post-body .note.warning h2,
+.post-body .note.warning h3,
+.post-body .note.warning h4,
+.post-body .note.warning h5,
+.post-body .note.warning h6 {
+  color: #f0ad4e;
+}
+.post-body .note.danger {
+  border-left-color: #d9534f;
+}
+.post-body .note.danger h2,
+.post-body .note.danger h3,
+.post-body .note.danger h4,
+.post-body .note.danger h5,
+.post-body .note.danger h6 {
+  color: #d9534f;
+}
+.pagination .prev,
+.pagination .next,
+.pagination .page-number,
+.pagination .space {
+  display: inline-block;
+  margin: 0 10px;
+  padding: 0 11px;
+  position: relative;
+  top: -1px;
+}
+@media (max-width: 767px) {
+  .pagination .prev,
+  .pagination .next,
+  .pagination .page-number,
+  .pagination .space {
+    margin: 0 5px;
+  }
+}
+.pagination {
+  border-top: 1px solid #eee;
+  margin: 120px 0 0;
+  text-align: center;
+}
+.pagination .prev,
+.pagination .next,
+.pagination .page-number {
+  border-bottom: 0;
+  border-top: 1px solid #eee;
+  transition-property: border-color;
+  transition-delay: 0s;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-in-out;
+}
+.pagination .prev:hover,
+.pagination .next:hover,
+.pagination .page-number:hover {
+  border-top-color: #222;
+}
+.pagination .space {
+  margin: 0;
+  padding: 0;
+}
+.pagination .prev {
+  margin-left: 0;
+}
+.pagination .next {
+  margin-right: 0;
+}
+.pagination .page-number.current {
+  background: #ccc;
+  border-top-color: #ccc;
+  color: #fff;
+}
+@media (max-width: 767px) {
+  .pagination {
+    border-top: none;
+  }
+  .pagination .prev,
+  .pagination .next,
+  .pagination .page-number {
+    border-bottom: 1px solid #eee;
+    border-top: 0;
+    margin-bottom: 10px;
+    padding: 0 10px;
+  }
+  .pagination .prev:hover,
+  .pagination .next:hover,
+  .pagination .page-number:hover {
+    border-bottom-color: #222;
+  }
+}
+.comments {
+  margin-top: 60px;
+  overflow: hidden;
+}
+.comment-button-group {
+  display: flex;
+  flex-wrap: wrap-reverse;
+  justify-content: center;
+  margin: 1em 0;
+}
+.comment-button-group .comment-button {
+  margin: 0.1em 0.2em;
+}
+.comment-button-group .comment-button.active {
+  background: var(--btn-default-hover-bg);
+  border-color: var(--btn-default-hover-border-color);
+  color: var(--btn-default-hover-color);
+}
+.comment-position {
+  display: none;
+}
+.comment-position.active {
+  display: block;
+}
+.tabs-comment {
+  background: var(--content-bg-color);
+  margin-top: 4em;
+  padding-top: 0;
+}
+.tabs-comment .comments {
+  border: 0;
+  box-shadow: none;
+  margin-top: 0;
+  padding-top: 0;
+}
+.container {
+  min-height: 100%;
+  position: relative;
+}
+.main-inner {
+  margin: 0 auto;
+  width: calc(100% - 20px);
+}
+@media (min-width: 1200px) {
+  .main-inner {
+    width: 1160px;
+  }
+}
+@media (min-width: 1600px) {
+  .main-inner {
+    width: 73%;
+  }
+}
+@media (max-width: 767px) {
+  .content-wrap {
+    padding: 0 20px;
+  }
+}
+.header {
+  background: transparent;
+}
+.header-inner {
+  margin: 0 auto;
+  width: calc(100% - 20px);
+}
+@media (min-width: 1200px) {
+  .header-inner {
+    width: 1160px;
+  }
+}
+@media (min-width: 1600px) {
+  .header-inner {
+    width: 73%;
+  }
+}
+.site-brand-container {
+  display: flex;
+  flex-shrink: 0;
+  padding: 0 10px;
+}
+.headband {
+  background: #222;
+  height: 3px;
+}
+.site-meta {
+  flex-grow: 1;
+  text-align: center;
+}
+@media (max-width: 767px) {
+  .site-meta {
+    text-align: center;
+  }
+}
+.brand {
+  border-bottom: none;
+  color: var(--brand-color);
+  display: inline-block;
+  line-height: 1.375em;
+  padding: 0 40px;
+  position: relative;
+}
+.brand:hover {
+  color: var(--brand-hover-color);
+}
+.site-title {
+  font-family: 'Lato', "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: 1.375em;
+  font-weight: normal;
+  margin: 0;
+}
+.site-subtitle {
+  color: #ddd;
+  font-size: 0.8125em;
+  margin: 10px 0;
+}
+.use-motion .brand {
+  opacity: 0;
+}
+.use-motion .site-title,
+.use-motion .site-subtitle,
+.use-motion .custom-logo-image {
+  opacity: 0;
+  position: relative;
+  top: -10px;
+}
+.site-nav-toggle,
+.site-nav-right {
+  display: none;
+}
+@media (max-width: 767px) {
+  .site-nav-toggle,
+  .site-nav-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+.site-nav-toggle .toggle,
+.site-nav-right .toggle {
+  color: var(--text-color);
+  padding: 10px;
+  width: 22px;
+}
+.site-nav-toggle .toggle .toggle-line,
+.site-nav-right .toggle .toggle-line {
+  background: var(--text-color);
+  border-radius: 1px;
+}
+.site-nav {
+  display: block;
+}
+@media (max-width: 767px) {
+  .site-nav {
+    clear: both;
+    display: none;
+  }
+}
+.site-nav.site-nav-on {
+  display: block;
+}
+.menu {
+  margin-top: 20px;
+  padding-left: 0;
+  text-align: center;
+}
+.menu-item {
+  display: inline-block;
+  list-style: none;
+  margin: 0 10px;
+}
+@media (max-width: 767px) {
+  .menu-item {
+    display: block;
+    margin-top: 10px;
+  }
+  .menu-item.menu-item-search {
+    display: none;
+  }
+}
+.menu-item a,
+.menu-item span.exturl {
+  border-bottom: 0;
+  display: block;
+  font-size: 0.8125em;
+  transition-property: border-color;
+  transition-delay: 0s;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-in-out;
+}
+@media (hover: none) {
+  .menu-item a:hover,
+  .menu-item span.exturl:hover {
+    border-bottom-color: transparent !important;
+  }
+}
+.menu-item .fa,
+.menu-item .fab,
+.menu-item .far,
+.menu-item .fas {
+  margin-right: 8px;
+}
+.menu-item .badge {
+  display: inline-block;
+  font-weight: bold;
+  line-height: 1;
+  margin-left: 0.35em;
+  margin-top: 0.35em;
+  text-align: center;
+  white-space: nowrap;
+}
+@media (max-width: 767px) {
+  .menu-item .badge {
+    float: right;
+    margin-left: 0;
+  }
+}
+.menu-item-active a,
+.menu .menu-item a:hover,
+.menu .menu-item span.exturl:hover {
+  background: var(--menu-item-bg-color);
+}
+.use-motion .menu-item {
+  opacity: 0;
+}
+.sidebar {
+  background: #222;
+  bottom: 0;
+  box-shadow: inset 0 2px 6px #000;
+  position: fixed;
+  top: 0;
+}
+@media (max-width: 991px) {
+  .sidebar {
+    display: none;
+  }
+}
+.sidebar-inner {
+  color: #999;
+  padding: 18px 10px;
+  text-align: center;
+}
+.cc-license {
+  margin-top: 10px;
+  text-align: center;
+}
+.cc-license .cc-opacity {
+  border-bottom: none;
+  opacity: 0.7;
+}
+.cc-license .cc-opacity:hover {
+  opacity: 0.9;
+}
+.cc-license img {
+  display: inline-block;
+}
+.site-author-image {
+  border: 1px solid #eee;
+  display: block;
+  margin: 0 auto;
+  max-width: 120px;
+  padding: 2px;
+  border-radius: 50%;
+}
+.site-author-name {
+  color: var(--text-color);
+  font-weight: 600;
+  margin: 0;
+  text-align: center;
+}
+.site-description {
+  color: #999;
+  font-size: 0.8125em;
+  margin-top: 0;
+  text-align: center;
+}
+.links-of-author {
+  margin-top: 15px;
+}
+.links-of-author a,
+.links-of-author span.exturl {
+  border-bottom-color: #555;
+  display: inline-block;
+  font-size: 0.8125em;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+.links-of-author a::before,
+.links-of-author span.exturl::before {
+  background: #ab21ed;
+  border-radius: 50%;
+  content: ' ';
+  display: inline-block;
+  height: 4px;
+  margin-right: 3px;
+  vertical-align: middle;
+  width: 4px;
+}
+.sidebar-button {
+  margin-top: 15px;
+}
+.sidebar-button a {
+  border: 1px solid #fc6423;
+  border-radius: 4px;
+  color: #fc6423;
+  display: inline-block;
+  padding: 0 15px;
+}
+.sidebar-button a .fa,
+.sidebar-button a .fab,
+.sidebar-button a .far,
+.sidebar-button a .fas {
+  margin-right: 5px;
+}
+.sidebar-button a:hover {
+  background: #fc6423;
+  border: 1px solid #fc6423;
+  color: #fff;
+}
+.sidebar-button a:hover .fa,
+.sidebar-button a:hover .fab,
+.sidebar-button a:hover .far,
+.sidebar-button a:hover .fas {
+  color: #fff;
+}
+.links-of-blogroll {
+  font-size: 0.8125em;
+  margin-top: 10px;
+}
+.links-of-blogroll-title {
+  font-size: 0.875em;
+  font-weight: 600;
+  margin-top: 0;
+}
+.links-of-blogroll-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+#sidebar-dimmer {
+  display: none;
+}
+@media (max-width: 767px) {
+  #sidebar-dimmer {
+    background: #000;
+    display: block;
+    height: 100%;
+    left: 100%;
+    opacity: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1100;
+  }
+  .sidebar-active + #sidebar-dimmer {
+    opacity: 0.7;
+    transform: translateX(-100%);
+    transition: opacity 0.5s;
+  }
+}
+.sidebar-nav {
+  margin: 0;
+  padding-bottom: 20px;
+  padding-left: 0;
+}
+.sidebar-nav li {
+  border-bottom: 1px solid transparent;
+  color: var(--text-color);
+  cursor: pointer;
+  display: inline-block;
+  font-size: 0.875em;
+}
+.sidebar-nav li.sidebar-nav-overview {
+  margin-left: 10px;
+}
+.sidebar-nav li:hover {
+  color: #fc6423;
+}
+.sidebar-nav .sidebar-nav-active {
+  border-bottom-color: #fc6423;
+  color: #fc6423;
+}
+.sidebar-nav .sidebar-nav-active:hover {
+  color: #fc6423;
+}
+.sidebar-panel {
+  display: none;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.sidebar-panel-active {
+  display: block;
+}
+.sidebar-toggle {
+  background: #222;
+  bottom: 45px;
+  cursor: pointer;
+  height: 14px;
+  left: 30px;
+  padding: 5px;
+  position: fixed;
+  width: 14px;
+  z-index: 1300;
+}
+@media (max-width: 991px) {
+  .sidebar-toggle {
+    left: 20px;
+    opacity: 0.8;
+    display: none;
+  }
+}
+.sidebar-toggle:hover .toggle-line {
+  background: #fc6423;
+}
+.post-toc {
+  font-size: 0.875em;
+}
+.post-toc ol {
+  list-style: none;
+  margin: 0;
+  padding: 0 2px 5px 10px;
+  text-align: left;
+}
+.post-toc ol > ol {
+  padding-left: 0;
+}
+.post-toc ol a {
+  transition-property: all;
+  transition-delay: 0s;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-in-out;
+}
+.post-toc .nav-item {
+  line-height: 1.8;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.post-toc .nav .nav-child {
+  display: none;
+}
+.post-toc .nav .active > .nav-child {
+  display: block;
+}
+.post-toc .nav .active-current > .nav-child {
+  display: block;
+}
+.post-toc .nav .active-current > .nav-child > .nav-item {
+  display: block;
+}
+.post-toc .nav .active > a {
+  border-bottom-color: #fc6423;
+  color: #fc6423;
+}
+.post-toc .nav .active-current > a {
+  color: #fc6423;
+}
+.post-toc .nav .active-current > a:hover {
+  color: #fc6423;
+}
+.site-state {
+  display: flex;
+  justify-content: center;
+  line-height: 1.4;
+  margin-top: 10px;
+  overflow: hidden;
+  text-align: center;
+  white-space: nowrap;
+}
+.site-state-item {
+  padding: 0 15px;
+}
+.site-state-item:not(:first-child) {
+  border-left: 1px solid #eee;
+}
+.site-state-item a {
+  border-bottom: none;
+}
+.site-state-item-count {
+  display: block;
+  font-size: 1em;
+  font-weight: 600;
+  text-align: center;
+}
+.site-state-item-name {
+  color: #999;
+  font-size: 0.8125em;
+}
+.footer {
+  color: #999;
+  font-size: 0.875em;
+  padding: 20px 0;
+}
+.footer.footer-fixed {
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  right: 0;
+}
+.footer-inner {
+  box-sizing: border-box;
+  margin: 0 auto;
+  text-align: center;
+  width: calc(100% - 20px);
+}
+@media (min-width: 1200px) {
+  .footer-inner {
+    width: 1160px;
+  }
+}
+@media (min-width: 1600px) {
+  .footer-inner {
+    width: 73%;
+  }
+}
+.languages {
+  display: inline-block;
+  font-size: 1.125em;
+  position: relative;
+}
+.languages .lang-select-label span {
+  margin: 0 0.5em;
+}
+.languages .lang-select {
+  height: 100%;
+  left: 0;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+.with-love {
+  color: #ff0000;
+  display: inline-block;
+  margin: 0 5px;
+}
+.powered-by,
+.theme-info {
+  display: inline-block;
+}
+@-moz-keyframes iconAnimate {
+  0%, 100% {
+    transform: scale(1);
+  }
+  10%, 30% {
+    transform: scale(0.9);
+  }
+  20%, 40%, 60%, 80% {
+    transform: scale(1.1);
+  }
+  50%, 70% {
+    transform: scale(1.1);
+  }
+}
+@-webkit-keyframes iconAnimate {
+  0%, 100% {
+    transform: scale(1);
+  }
+  10%, 30% {
+    transform: scale(0.9);
+  }
+  20%, 40%, 60%, 80% {
+    transform: scale(1.1);
+  }
+  50%, 70% {
+    transform: scale(1.1);
+  }
+}
+@-o-keyframes iconAnimate {
+  0%, 100% {
+    transform: scale(1);
+  }
+  10%, 30% {
+    transform: scale(0.9);
+  }
+  20%, 40%, 60%, 80% {
+    transform: scale(1.1);
+  }
+  50%, 70% {
+    transform: scale(1.1);
+  }
+}
+@keyframes iconAnimate {
+  0%, 100% {
+    transform: scale(1);
+  }
+  10%, 30% {
+    transform: scale(0.9);
+  }
+  20%, 40%, 60%, 80% {
+    transform: scale(1.1);
+  }
+  50%, 70% {
+    transform: scale(1.1);
+  }
+}
+.back-to-top {
+  font-size: 12px;
+  text-align: center;
+  transition-delay: 0s;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-in-out;
+}
+.back-to-top {
+  background: #222;
+  bottom: -100px;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  left: 30px;
+  opacity: 0.6;
+  padding: 0 6px;
+  position: fixed;
+  transition-property: bottom;
+  z-index: 1300;
+  width: initial;
+}
+.back-to-top:hover {
+  color: #fc6423;
+}
+.back-to-top.back-to-top-on {
+  bottom: 30px;
+}
+@media (max-width: 991px) {
+  .back-to-top {
+    left: 20px;
+    opacity: 0.8;
+  }
+}
+.reading-progress-bar {
+  background: #37c6c0;
+  display: block;
+  height: 3px;
+  left: 0;
+  position: fixed;
+  width: 0;
+  z-index: 1500;
+  top: 0;
+}
+.post-body {
+  font-family: 'Lato', "PingFang SC", "Microsoft YaHei", sans-serif;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+@media (min-width: 1200px) {
+  .post-body {
+    font-size: 1.125em;
+  }
+}
+.post-body .exturl .fa {
+  font-size: 0.875em;
+  margin-left: 4px;
+}
+.post-body .image-caption,
+.post-body .figure .caption {
+  color: #999;
+  font-size: 0.875em;
+  font-weight: bold;
+  line-height: 1;
+  margin: -20px auto 15px;
+  text-align: center;
+}
+.post-sticky-flag {
+  display: inline-block;
+  transform: rotate(30deg);
+}
+.post-button {
+  margin-top: 40px;
+  text-align: center;
+}
+.use-motion .post-block,
+.use-motion .pagination,
+.use-motion .comments {
+  opacity: 0;
+}
+.use-motion .post-header {
+  opacity: 0;
+}
+.use-motion .post-body {
+  opacity: 0;
+}
+.use-motion .collection-header {
+  opacity: 0;
+}
+.posts-collapse {
+  margin-left: 35px;
+  position: relative;
+}
+@media (max-width: 767px) {
+  .posts-collapse {
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+}
+.posts-collapse .collection-title {
+  font-size: 1.125em;
+  position: relative;
+}
+.posts-collapse .collection-title::before {
+  background: #999;
+  border: 1px solid #fff;
+  border-radius: 50%;
+  content: ' ';
+  height: 10px;
+  left: 0;
+  margin-left: -6px;
+  margin-top: -4px;
+  position: absolute;
+  top: 50%;
+  width: 10px;
+}
+.posts-collapse .collection-year {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin: 60px 0;
+  position: relative;
+}
+.posts-collapse .collection-year::before {
+  background: #bbb;
+  border-radius: 50%;
+  content: ' ';
+  height: 8px;
+  left: 0;
+  margin-left: -4px;
+  margin-top: -4px;
+  position: absolute;
+  top: 50%;
+  width: 8px;
+}
+.posts-collapse .collection-header {
+  display: block;
+  margin: 0 0 0 20px;
+}
+.posts-collapse .collection-header small {
+  color: #bbb;
+  margin-left: 5px;
+}
+.posts-collapse .post-header {
+  border-bottom: 1px dashed #ccc;
+  margin: 30px 0;
+  padding-left: 15px;
+  position: relative;
+  transition-property: border;
+  transition-delay: 0s;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-in-out;
+}
+.posts-collapse .post-header::before {
+  background: #bbb;
+  border: 1px solid #fff;
+  border-radius: 50%;
+  content: ' ';
+  height: 6px;
+  left: 0;
+  margin-left: -4px;
+  position: absolute;
+  top: 0.75em;
+  transition-property: background;
+  width: 6px;
+  transition-delay: 0s;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-in-out;
+}
+.posts-collapse .post-header:hover {
+  border-bottom-color: #666;
+}
+.posts-collapse .post-header:hover::before {
+  background: #222;
+}
+.posts-collapse .post-meta {
+  display: inline;
+  font-size: 0.75em;
+  margin-right: 10px;
+}
+.posts-collapse .post-title {
+  display: inline;
+}
+.posts-collapse .post-title a,
+.posts-collapse .post-title span.exturl {
+  border-bottom: none;
+  color: var(--link-color);
+}
+.posts-collapse .post-title .fa-external-link-alt {
+  font-size: 0.875em;
+  margin-left: 5px;
+}
+.posts-collapse::before {
+  background: #f5f5f5;
+  content: ' ';
+  height: 100%;
+  left: 0;
+  margin-left: -2px;
+  position: absolute;
+  top: 1.25em;
+  width: 4px;
+}
+.post-eof {
+  background: #ccc;
+  height: 1px;
+  margin: 80px auto 60px;
+  text-align: center;
+  width: 8%;
+}
+.post-block:last-of-type .post-eof {
+  display: none;
+}
+.content {
+  padding-top: 40px;
+}
+@media (min-width: 992px) {
+  .post-body {
+    text-align: justify;
+  }
+}
+@media (max-width: 991px) {
+  .post-body {
+    text-align: justify;
+  }
+}
+.post-body h1,
+.post-body h2,
+.post-body h3,
+.post-body h4,
+.post-body h5,
+.post-body h6 {
+  padding-top: 10px;
+}
+.post-body h1 .header-anchor,
+.post-body h2 .header-anchor,
+.post-body h3 .header-anchor,
+.post-body h4 .header-anchor,
+.post-body h5 .header-anchor,
+.post-body h6 .header-anchor {
+  border-bottom-style: none;
+  color: #ccc;
+  float: right;
+  margin-left: 10px;
+  visibility: hidden;
+}
+.post-body h1 .header-anchor:hover,
+.post-body h2 .header-anchor:hover,
+.post-body h3 .header-anchor:hover,
+.post-body h4 .header-anchor:hover,
+.post-body h5 .header-anchor:hover,
+.post-body h6 .header-anchor:hover {
+  color: inherit;
+}
+.post-body h1:hover .header-anchor,
+.post-body h2:hover .header-anchor,
+.post-body h3:hover .header-anchor,
+.post-body h4:hover .header-anchor,
+.post-body h5:hover .header-anchor,
+.post-body h6:hover .header-anchor {
+  visibility: visible;
+}
+.post-body iframe,
+.post-body img,
+.post-body video {
+  margin-bottom: 20px;
+}
+.post-body .video-container {
+  height: 0;
+  margin-bottom: 20px;
+  overflow: hidden;
+  padding-top: 75%;
+  position: relative;
+  width: 100%;
+}
+.post-body .video-container iframe,
+.post-body .video-container object,
+.post-body .video-container embed {
+  height: 100%;
+  left: 0;
+  margin: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+.post-gallery {
+  align-items: center;
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: 1fr 1fr 1fr;
+  margin-bottom: 20px;
+}
+@media (max-width: 767px) {
+  .post-gallery {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.post-gallery a {
+  border: 0;
+}
+.post-gallery img {
+  margin: 0;
+}
+.posts-expand .post-header {
+  font-size: 1.125em;
+}
+.posts-expand .post-title {
+  font-size: 1.5em;
+  font-weight: normal;
+  margin: initial;
+  text-align: center;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+.posts-expand .post-title-link {
+  border-bottom: none;
+  color: var(--link-color);
+  display: inline-block;
+  position: relative;
+  vertical-align: top;
+}
+.posts-expand .post-title-link::before {
+  background: var(--link-color);
+  bottom: 0;
+  content: '';
+  height: 2px;
+  left: 0;
+  position: absolute;
+  transform: scaleX(0);
+  visibility: hidden;
+  width: 100%;
+  transition-delay: 0s;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-in-out;
+}
+.posts-expand .post-title-link:hover::before {
+  transform: scaleX(1);
+  visibility: visible;
+}
+.posts-expand .post-title-link .fa-external-link-alt {
+  font-size: 0.875em;
+  margin-left: 5px;
+}
+.posts-expand .post-meta {
+  color: #999;
+  font-family: 'Lato', "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: 0.75em;
+  margin: 3px 0 60px 0;
+  text-align: center;
+}
+.posts-expand .post-meta .post-description {
+  font-size: 0.875em;
+  margin-top: 2px;
+}
+.posts-expand .post-meta time {
+  border-bottom: 1px dashed #999;
+  cursor: pointer;
+}
+.post-meta .post-meta-item + .post-meta-item::before {
+  content: '|';
+  margin: 0 0.5em;
+}
+.post-meta-divider {
+  margin: 0 0.5em;
+}
+.post-meta-item-icon {
+  margin-right: 3px;
+}
+@media (max-width: 991px) {
+  .post-meta-item-icon {
+    display: inline-block;
+  }
+}
+@media (max-width: 991px) {
+  .post-meta-item-text {
+    display: none;
+  }
+}
+.post-nav {
+  border-top: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+  padding: 10px 5px 0;
+}
+.post-nav-item {
+  flex: 1;
+}
+.post-nav-item a {
+  border-bottom: none;
+  display: block;
+  font-size: 0.875em;
+  line-height: 1.6;
+  position: relative;
+}
+.post-nav-item a:active {
+  top: 2px;
+}
+.post-nav-item .fa {
+  font-size: 0.75em;
+}
+.post-nav-item:first-child {
+  margin-right: 15px;
+}
+.post-nav-item:first-child .fa {
+  margin-right: 5px;
+}
+.post-nav-item:last-child {
+  margin-left: 15px;
+  text-align: right;
+}
+.post-nav-item:last-child .fa {
+  margin-left: 5px;
+}
+.rtl.post-body p,
+.rtl.post-body a,
+.rtl.post-body h1,
+.rtl.post-body h2,
+.rtl.post-body h3,
+.rtl.post-body h4,
+.rtl.post-body h5,
+.rtl.post-body h6,
+.rtl.post-body li,
+.rtl.post-body ul,
+.rtl.post-body ol {
+  direction: rtl;
+  font-family: UKIJ Ekran;
+}
+.rtl.post-title {
+  font-family: UKIJ Ekran;
+}
+.post-tags {
+  margin-top: 40px;
+  text-align: center;
+}
+.post-tags a {
+  display: inline-block;
+  font-size: 0.8125em;
+}
+.post-tags a:not(:last-child) {
+  margin-right: 10px;
+}
+.post-widgets {
+  border-top: 1px solid #eee;
+  margin-top: 15px;
+  text-align: center;
+}
+.wp_rating {
+  height: 20px;
+  line-height: 20px;
+  margin-top: 10px;
+  padding-top: 6px;
+  text-align: center;
+}
+.social-like {
+  display: flex;
+  font-size: 0.875em;
+  justify-content: center;
+  text-align: center;
+}
+.reward-container {
+  margin: 20px auto;
+  padding: 10px 0;
+  text-align: center;
+  width: 90%;
+}
+.reward-container button {
+  background: transparent;
+  border: 1px solid #fc6423;
+  border-radius: 0;
+  color: #fc6423;
+  cursor: pointer;
+  line-height: 2;
+  outline: 0;
+  padding: 0 15px;
+  vertical-align: text-top;
+}
+.reward-container button:hover {
+  background: #fc6423;
+  border: 1px solid transparent;
+  color: #fa9366;
+}
+#qr {
+  padding-top: 20px;
+}
+#qr a {
+  border: 0;
+}
+#qr img {
+  display: inline-block;
+  margin: 0.8em 2em 0 2em;
+  max-width: 100%;
+  width: 180px;
+}
+#qr p {
+  text-align: center;
+}
+.category-all-page .category-all-title {
+  text-align: center;
+}
+.category-all-page .category-all {
+  margin-top: 20px;
+}
+.category-all-page .category-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.category-all-page .category-list-item {
+  margin: 5px 10px;
+}
+.category-all-page .category-list-count {
+  color: #bbb;
+}
+.category-all-page .category-list-count::before {
+  content: ' (';
+  display: inline;
+}
+.category-all-page .category-list-count::after {
+  content: ') ';
+  display: inline;
+}
+.category-all-page .category-list-child {
+  padding-left: 10px;
+}
+.event-list {
+  padding: 0;
+}
+.event-list hr {
+  background: #222;
+  margin: 20px 0 45px 0;
+}
+.event-list hr::after {
+  background: #222;
+  color: #fff;
+  content: 'NOW';
+  display: inline-block;
+  font-weight: bold;
+  padding: 0 5px;
+  text-align: right;
+}
+.event-list .event {
+  background: #222;
+  margin: 20px 0;
+  min-height: 40px;
+  padding: 15px 0 15px 10px;
+}
+.event-list .event .event-summary {
+  color: #fff;
+  margin: 0;
+  padding-bottom: 3px;
+}
+.event-list .event .event-summary::before {
+  animation: dot-flash 1s alternate infinite ease-in-out;
+  color: #fff;
+  content: '\f111';
+  display: inline-block;
+  font-size: 10px;
+  margin-right: 25px;
+  vertical-align: middle;
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+}
+.event-list .event .event-relative-time {
+  color: #bbb;
+  display: inline-block;
+  font-size: 12px;
+  font-weight: normal;
+  padding-left: 12px;
+}
+.event-list .event .event-details {
+  color: #fff;
+  display: block;
+  line-height: 18px;
+  margin-left: 56px;
+  padding-bottom: 6px;
+  padding-top: 3px;
+  text-indent: -24px;
+}
+.event-list .event .event-details::before {
+  color: #fff;
+  display: inline-block;
+  margin-right: 9px;
+  text-align: center;
+  text-indent: 0;
+  width: 14px;
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+}
+.event-list .event .event-details.event-location::before {
+  content: '\f041';
+}
+.event-list .event .event-details.event-duration::before {
+  content: '\f017';
+}
+.event-list .event-past {
+  background: #f5f5f5;
+}
+.event-list .event-past .event-summary,
+.event-list .event-past .event-details {
+  color: #bbb;
+  opacity: 0.9;
+}
+.event-list .event-past .event-summary::before,
+.event-list .event-past .event-details::before {
+  animation: none;
+  color: #bbb;
+}
+@-moz-keyframes dot-flash {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+}
+@-webkit-keyframes dot-flash {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+}
+@-o-keyframes dot-flash {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+}
+@keyframes dot-flash {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+}
+ul.breadcrumb {
+  font-size: 0.75em;
+  list-style: none;
+  margin: 1em 0;
+  padding: 0 2em;
+  text-align: center;
+}
+ul.breadcrumb li {
+  display: inline;
+}
+ul.breadcrumb li + li::before {
+  content: '/\00a0';
+  font-weight: normal;
+  padding: 0.5em;
+}
+ul.breadcrumb li + li:last-child {
+  font-weight: bold;
+}
+.tag-cloud {
+  text-align: center;
+}
+.tag-cloud a {
+  display: inline-block;
+  margin: 10px;
+}
+.tag-cloud a:hover {
+  color: var(--link-hover-color) !important;
+}
+.search-pop-overlay {
+  background: rgba(0,0,0,0);
+  height: 100%;
+  left: 0;
+  position: fixed;
+  top: 0;
+  transition: visibility 0s linear 0.2s, background 0.2s;
+  visibility: hidden;
+  width: 100%;
+  z-index: 1400;
+}
+.search-pop-overlay.search-active {
+  background: rgba(0,0,0,0.3);
+  transition: background 0.2s;
+  visibility: visible;
+}
+.search-popup {
+  background: var(--card-bg-color);
+  border-radius: 5px;
+  height: 80%;
+  left: calc(50% - 350px);
+  position: fixed;
+  top: 10%;
+  transform: scale(0);
+  transition: transform 0.2s;
+  width: 700px;
+  z-index: 1500;
+}
+.search-active .search-popup {
+  transform: scale(1);
+}
+@media (max-width: 767px) {
+  .search-popup {
+    border-radius: 0;
+    height: 100%;
+    left: 0;
+    margin: 0;
+    top: 0;
+    width: 100%;
+  }
+}
+.search-popup .search-icon,
+.search-popup .popup-btn-close {
+  color: #999;
+  font-size: 18px;
+  padding: 0 10px;
+}
+.search-popup .popup-btn-close {
+  cursor: pointer;
+}
+.search-popup .popup-btn-close:hover .fa {
+  color: #222;
+}
+.search-popup .search-header {
+  background: #eee;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  display: flex;
+  padding: 5px;
+}
+.search-popup input.search-input {
+  background: transparent;
+  border: 0;
+  outline: 0;
+  width: 100%;
+}
+.search-popup input.search-input::-webkit-search-cancel-button {
+  display: none;
+}
+.search-popup .search-input-container {
+  flex-grow: 1;
+  padding: 2px;
+}
+.search-popup ul.search-result-list {
+  margin: 0 5px;
+  padding: 0;
+  width: 100%;
+}
+.search-popup p.search-result {
+  border-bottom: 1px dashed #ccc;
+  padding: 5px 0;
+}
+.search-popup a.search-result-title {
+  font-weight: bold;
+}
+.search-popup .search-keyword {
+  border-bottom: 1px dashed #ff2a2a;
+  color: #ff2a2a;
+  font-weight: bold;
+}
+.search-popup #search-result {
+  display: flex;
+  height: calc(100% - 55px);
+  overflow: auto;
+  padding: 5px 25px;
+}
+.search-popup #no-result {
+  color: #ccc;
+  margin: auto;
+}
+.header {
+  margin: 0 auto;
+  position: relative;
+  width: calc(100% - 20px);
+}
+@media (min-width: 1200px) {
+  .header {
+    width: 1160px;
+  }
+}
+@media (min-width: 1600px) {
+  .header {
+    width: 73%;
+  }
+}
+@media (max-width: 991px) {
+  .header {
+    width: auto;
+  }
+}
+.header-inner {
+  background: var(--content-bg-color);
+  border-radius: initial;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.06), 0 1px 5px 0 rgba(0,0,0,0.12);
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  top: 0;
+  width: 240px;
+}
+@media (min-width: 1200px) {
+  .header-inner {
+    width: 240px;
+  }
+}
+@media (max-width: 991px) {
+  .header-inner {
+    border-radius: initial;
+    position: relative;
+    width: auto;
+  }
+}
+.main-inner {
+  align-items: flex-start;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row-reverse;
+}
+@media (max-width: 991px) {
+  .main-inner {
+    width: auto;
+  }
+}
+.content-wrap {
+  background: var(--content-bg-color);
+  border-radius: initial;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.06), 0 1px 5px 0 rgba(0,0,0,0.12);
+  box-sizing: border-box;
+  padding: 40px;
+  width: calc(100% - 252px);
+}
+@media (max-width: 991px) {
+  .content-wrap {
+    border-radius: initial;
+    padding: 20px;
+    width: 100%;
+  }
+}
+.footer-inner {
+  padding-left: 260px;
+}
+.back-to-top {
+  left: auto;
+  right: 30px;
+}
+@media (max-width: 991px) {
+  .back-to-top {
+    right: 20px;
+  }
+}
+@media (max-width: 991px) {
+  .footer-inner {
+    padding-left: 0;
+    padding-right: 0;
+    width: auto;
+  }
+}
+.site-brand-container {
+  background: #222;
+}
+@media (max-width: 991px) {
+  .site-brand-container {
+    box-shadow: 0 0 16px rgba(0,0,0,0.5);
+  }
+}
+.site-meta {
+  padding: 20px 0;
+}
+.brand {
+  padding: 0;
+}
+.site-subtitle {
+  margin: 10px 10px 0;
+}
+.custom-logo-image {
+  margin-top: 20px;
+}
+@media (max-width: 991px) {
+  .custom-logo-image {
+    display: none;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .site-nav-toggle,
+  .site-nav-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+.site-nav-toggle .toggle,
+.site-nav-right .toggle {
+  color: #fff;
+}
+.site-nav-toggle .toggle .toggle-line,
+.site-nav-right .toggle .toggle-line {
+  background: #fff;
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .site-nav {
+    display: none;
+  }
+}
+.menu .menu-item {
+  display: block;
+  margin: 0;
+}
+.menu .menu-item a,
+.menu .menu-item span.exturl {
+  padding: 5px 20px;
+  position: relative;
+  text-align: left;
+  transition-property: background-color;
+}
+@media (max-width: 991px) {
+  .menu .menu-item.menu-item-search {
+    display: none;
+  }
+}
+.menu .menu-item .badge {
+  background: #ccc;
+  border-radius: 10px;
+  color: #fff;
+  float: right;
+  padding: 2px 5px;
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.1);
+  vertical-align: middle;
+}
+.sub-menu {
+  background: var(--content-bg-color);
+  border-bottom: 1px solid #ddd;
+  margin: 0;
+  padding: 6px 0;
+}
+.sub-menu .menu-item {
+  display: inline-block;
+}
+.sub-menu .menu-item a,
+.sub-menu .menu-item span.exturl {
+  background: transparent;
+  margin: 5px 10px;
+  padding: initial;
+}
+.sub-menu .menu-item a:hover,
+.sub-menu .menu-item span.exturl:hover {
+  background: transparent;
+  color: #fc6423;
+}
+.sub-menu .menu-item-active a {
+  border-bottom-color: #fc6423;
+  color: #fc6423;
+}
+.sub-menu .menu-item-active a:hover {
+  border-bottom-color: #fc6423;
+}
+.sidebar {
+  background: var(--body-bg-color);
+  box-shadow: none;
+  margin-top: 100%;
+  position: static;
+  width: 240px;
+}
+@media (max-width: 991px) {
+  .sidebar {
+    display: none;
+  }
+}
+.sidebar-toggle {
+  display: none;
+}
+.sidebar-inner {
+  background: var(--content-bg-color);
+  border-radius: initial;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.06), 0 1px 5px 0 rgba(0,0,0,0.12), 0 -1px 0.5px 0 rgba(0,0,0,0.09);
+  box-sizing: border-box;
+  color: var(--text-color);
+  width: 240px;
+  opacity: 0;
+}
+.sidebar-inner.affix {
+  position: fixed;
+  top: 12px;
+}
+.sidebar-inner.affix-bottom {
+  position: absolute;
+}
+.site-state-item {
+  padding: 0 10px;
+}
+.sidebar-button {
+  border-bottom: 1px dotted #ccc;
+  border-top: 1px dotted #ccc;
+  margin-top: 10px;
+  text-align: center;
+}
+.sidebar-button a {
+  border: 0;
+  color: #fc6423;
+  display: block;
+}
+.sidebar-button a:hover {
+  background: none;
+  border: 0;
+  color: #e34603;
+}
+.sidebar-button a:hover .fa,
+.sidebar-button a:hover .fab,
+.sidebar-button a:hover .far,
+.sidebar-button a:hover .fas {
+  color: #e34603;
+}
+.links-of-author {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 10px;
+  justify-content: center;
+}
+.links-of-author-item {
+  margin: 5px 0 0;
+  width: 50%;
+}
+.links-of-author-item a,
+.links-of-author-item span.exturl {
+  box-sizing: border-box;
+  display: inline-block;
+  margin-bottom: 0;
+  margin-right: 0;
+  max-width: 216px;
+  overflow: hidden;
+  padding: 0 5px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.links-of-author-item a,
+.links-of-author-item span.exturl {
+  border-bottom: none;
+  display: block;
+  text-decoration: none;
+}
+.links-of-author-item a::before,
+.links-of-author-item span.exturl::before {
+  display: none;
+}
+.links-of-author-item a:hover,
+.links-of-author-item span.exturl:hover {
+  background: var(--body-bg-color);
+  border-radius: 4px;
+}
+.links-of-author-item .fa,
+.links-of-author-item .fab,
+.links-of-author-item .far,
+.links-of-author-item .fas {
+  margin-right: 2px;
+}
+.links-of-blogroll-item {
+  padding: 0;
+}
+.content-wrap {
+  background: initial;
+  box-shadow: initial;
+  padding: initial;
+}
+.post-block {
+  background: var(--content-bg-color);
+  border-radius: initial;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.06), 0 1px 5px 0 rgba(0,0,0,0.12);
+  padding: 40px;
+}
+.post-block + .post-block {
+  border-radius: initial;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.06), 0 1px 5px 0 rgba(0,0,0,0.12), 0 -1px 0.5px 0 rgba(0,0,0,0.09);
+  margin-top: 12px;
+}
+.comments {
+  background: var(--content-bg-color);
+  border-radius: initial;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.06), 0 1px 5px 0 rgba(0,0,0,0.12), 0 -1px 0.5px 0 rgba(0,0,0,0.09);
+  margin-top: 12px;
+  padding: 40px;
+}
+.tabs-comment {
+  margin-top: 1em;
+}
+.content {
+  padding-top: initial;
+}
+.post-eof {
+  display: none;
+}
+.pagination {
+  background: var(--content-bg-color);
+  border-radius: initial;
+  border-top: initial;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.06), 0 1px 5px 0 rgba(0,0,0,0.12), 0 -1px 0.5px 0 rgba(0,0,0,0.09);
+  margin: 12px 0 0;
+  padding: 10px 0 10px;
+}
+.pagination .prev,
+.pagination .next,
+.pagination .page-number {
+  margin-bottom: initial;
+  top: initial;
+}
+.main {
+  padding-bottom: initial;
+}
+.footer {
+  bottom: auto;
+}
+.sub-menu {
+  border-bottom: initial;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.06), 0 1px 5px 0 rgba(0,0,0,0.12);
+}
+.sub-menu + .content .post-block {
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.06), 0 1px 5px 0 rgba(0,0,0,0.12), 0 -1px 0.5px 0 rgba(0,0,0,0.09);
+  margin-top: 12px;
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .sub-menu + .content .post-block {
+    margin-top: 10px;
+  }
+}
+@media (max-width: 767px) {
+  .sub-menu + .content .post-block {
+    margin-top: 8px;
+  }
+}
+.post-body h1,
+.post-body h2 {
+  border-bottom: 1px solid #eee;
+}
+.post-body h3 {
+  border-bottom: 1px dotted #eee;
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .content-wrap {
+    padding: 10px;
+  }
+  .posts-expand .post-button {
+    margin-top: 20px;
+  }
+  .post-block {
+    border-radius: initial;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.06), 0 1px 5px 0 rgba(0,0,0,0.12), 0 -1px 0.5px 0 rgba(0,0,0,0.09);
+    padding: 20px;
+  }
+  .post-block + .post-block {
+    margin-top: 10px;
+  }
+  .comments {
+    margin-top: 10px;
+    padding: 10px 20px;
+  }
+  .pagination {
+    margin: 10px 0 0;
+  }
+}
+@media (max-width: 767px) {
+  .content-wrap {
+    padding: 8px;
+  }
+  .posts-expand .post-button {
+    margin: 12px 0;
+  }
+  .post-block {
+    border-radius: initial;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.06), 0 1px 5px 0 rgba(0,0,0,0.12), 0 -1px 0.5px 0 rgba(0,0,0,0.09);
+    min-height: auto;
+    padding: 12px;
+  }
+  .post-block + .post-block {
+    margin-top: 8px;
+  }
+  .comments {
+    margin-top: 8px;
+    padding: 10px 12px;
+  }
+  .pagination {
+    margin: 8px 0 0;
+  }
+}
+body {
+  background: url("/images/background.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: 50% 50%;
+}
+.sidebar {
+  transition-duration: 0.4s;
+  opacity: 0.8;
+}
+.posts-expand .post-title-link {
+  color: #222;
+}
+.post-block {
+  background: #fff;
+  border-radius: initial;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.06), 0 1px 5px 0 rgba(0,0,0,0.12);
+  padding: 40px;
+}
+</style><noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<script>function loadCss(l){var d=document,h=d.head,s=d.createElement('link');s.rel='stylesheet';s.href=l;!function e(f){if (d.body)return f();setTimeout(function(){e(f)})}(function(){h.appendChild(s);});}loadCss('/style.css');</script></head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">StarrySkyDreamer</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">1</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">1</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">1</span></a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope="" itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/03/26/Golang%E5%9F%BA%E7%A1%80/">
+
+    <span hidden="" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="StarrySky">
+      <meta itemprop="description" content="半梦半醒间，迷雾撩我眸，一缕轻纱寻不到红颜.亦醉亦清前，风雨赠思愁，千里人烟遇不到知己">
+    </span>
+
+    <span hidden="" itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StarrySkyDreamer">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Golang基础
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-03-26 00:00:00" itemprop="dateCreated datePublished" datetime="2023-03-26T00:00:00+00:00">2023-03-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-04-26 06:18:31" itemprop="dateModified" datetime="2023-04-26T06:18:31+00:00">2023-04-26</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/Golang/" itemprop="url" rel="index"><span itemprop="name">Golang</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="格式化输出"><a href="#格式化输出" class="headerlink" title="格式化输出"></a>格式化输出</h2><h3 id="整数格式化"><a href="#整数格式化" class="headerlink" title="整数格式化"></a>整数格式化</h3><table>
+<thead>
+<tr>
+<th>格式</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>%b</td>
+<td>整型以二进制方式显示</td>
+</tr>
+<tr>
+<td>%o</td>
+<td>整型以八进制方式显示</td>
+</tr>
+<tr>
+<td>%d</td>
+<td>整型以十进制方式显示</td>
+</tr>
+<tr>
+<td>%x</td>
+<td>整型以十六进制方式显示</td>
+</tr>
+<tr>
+<td>%X</td>
+<td>整型以十六进制、字母大写方式显示</td>
+</tr>
+<tr>
+<td>%c</td>
+<td>相应Unicode码点所表示的字符</td>
+</tr>
+<tr>
+<td>%U</td>
+<td>Unicode 字符, Unicode格式：123，等同于 “U+007B”</td>
+</tr>
+</tbody></table>
+<span id="more"></span>
+<figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">a := <span class="number">255</span></span><br><span class="line">fmt.Printf(<span class="string">"二进制: %b\n"</span>, a)</span><br><span class="line">fmt.Printf(<span class="string">"八进制: %o\n"</span>, a)</span><br><span class="line">fmt.Printf(<span class="string">"十进制: %d\n"</span>, a)</span><br><span class="line">fmt.Printf(<span class="string">"十六进制: %x\n"</span>, a)</span><br><span class="line">fmt.Printf(<span class="string">"大写十六进制: %X\n"</span>, a)</span><br><span class="line"></span><br><span class="line">fmt.Printf(<span class="string">"十六进制: %d\n"</span>, Hex2Dec(<span class="string">"4E2D"</span>))</span><br><span class="line">fmt.Printf(<span class="string">"字符: %c\n"</span>, <span class="number">20013</span>)</span><br><span class="line">fmt.Printf(<span class="string">"Unicode格式: %U\n"</span>, <span class="string">'中'</span>) <span class="comment">// U+4E2D</span></span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="浮点数格式化"><a href="#浮点数格式化" class="headerlink" title="浮点数格式化"></a>浮点数格式化</h3><table>
+<thead>
+<tr>
+<th>格式</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>%e</td>
+<td>科学计数法，例如 -1234.456e+78</td>
+</tr>
+<tr>
+<td>%E</td>
+<td>科学计数法，例如 -1234.456E+78</td>
+</tr>
+<tr>
+<td>%f</td>
+<td>有小数点而无指数，例如 123.456</td>
+</tr>
+<tr>
+<td>%g</td>
+<td>根据情况选择 %e 或 %f 以产生更紧凑的（无末尾的0）输出</td>
+</tr>
+<tr>
+<td>%G</td>
+<td>根据情况选择 %E 或 %f 以产生更紧凑的（无末尾的0）输出</td>
+</tr>
+</tbody></table>
+<figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">fmt.Printf(<span class="string">"%e"</span>, <span class="number">12675757563.5345432567</span>) <span class="comment">//1.267576e+10</span></span><br><span class="line">fmt.Printf(<span class="string">"%E"</span>, <span class="number">12675757563.5345432567</span>) <span class="comment">// 1.267576E+10</span></span><br><span class="line">fmt.Printf(<span class="string">"%f"</span>, <span class="number">12675757563.5345432567</span>) <span class="comment">// 12675757563.534544</span></span><br><span class="line">fmt.Printf(<span class="string">"%g"</span>, <span class="number">12675757563.5345432567</span>) <span class="comment">// 1.2675757563534544e+10</span></span><br><span class="line">fmt.Printf(<span class="string">"%G"</span>, <span class="number">12675757563.5345432567</span>) <span class="comment">// 1.2675757563534544E+1</span></span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="布尔类型格式化"><a href="#布尔类型格式化" class="headerlink" title="布尔类型格式化"></a>布尔类型格式化</h3><table>
+<thead>
+<tr>
+<th>格式</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>%t</td>
+<td>true 或 false</td>
+</tr>
+</tbody></table>
+<figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fmt.Printf(<span class="string">"%t"</span>, <span class="literal">true</span>)</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="字符串格式化"><a href="#字符串格式化" class="headerlink" title="字符串格式化"></a>字符串格式化</h3><table>
+<thead>
+<tr>
+<th>格式</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>%s</td>
+<td>字符串或切片的无解译字节</td>
+</tr>
+<tr>
+<td>%q</td>
+<td>双引号围绕的字符串，由Go语法安全地转义</td>
+</tr>
+<tr>
+<td>%x</td>
+<td>十六进制，小写字母，每字节两个字符</td>
+</tr>
+<tr>
+<td>%X</td>
+<td>十六进制，大写字母，每字节两个字符</td>
+</tr>
+</tbody></table>
+<figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">str := <span class="string">"I'm a boy"</span></span><br><span class="line">	fmt.Printf(<span class="string">"%s\n"</span>, str) <span class="comment">//I'm a boy</span></span><br><span class="line">	fmt.Printf(<span class="string">"%q\n"</span>, str) <span class="comment">//"I'm a boy"</span></span><br><span class="line">	fmt.Printf(<span class="string">"%x\n"</span>, str) <span class="comment">//49276d206120626f79</span></span><br><span class="line">	fmt.Printf(<span class="string">"%X\n"</span>, str) <span class="comment">//49276D206120626F79</span></span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="指针格式化"><a href="#指针格式化" class="headerlink" title="指针格式化"></a>指针格式化</h3><table>
+<thead>
+<tr>
+<th>格式</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>%p</td>
+<td>十六进制表示，前缀 0x</td>
+</tr>
+</tbody></table>
+<figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a := <span class="string">"I'm a boy"</span></span><br><span class="line">b := &amp;a</span><br><span class="line">fmt.Printf(<span class="string">"%p"</span>, b)  <span class="comment">//0x14000010270</span></span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="通用的占位符"><a href="#通用的占位符" class="headerlink" title="通用的占位符"></a>通用的占位符</h3><table>
+<thead>
+<tr>
+<th>格式</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>%v</td>
+<td>值的默认格式。</td>
+</tr>
+<tr>
+<td>%+v</td>
+<td>类似%v，但输出结构体时会添加字段名</td>
+</tr>
+<tr>
+<td>%#v</td>
+<td>相应值的Go语法表示</td>
+</tr>
+<tr>
+<td>%T</td>
+<td>相应值的类型的Go语法表示</td>
+</tr>
+<tr>
+<td>%%</td>
+<td>百分号,字面上的%,非占位符含义</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>默认格式<code>%v</code>下，对于不同的数据类型，底层会去调用默认的格式化方式</p>
+</blockquote>
+<figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">bool</span>:                    %t </span><br><span class="line"><span class="type">int</span>, <span class="type">int8</span> etc.:          %d </span><br><span class="line"><span class="type">uint</span>, <span class="type">uint8</span> etc.:        %d, %x <span class="keyword">if</span> printed with %#v</span><br><span class="line"><span class="type">float32</span>, <span class="type">complex64</span>, etc: %g</span><br><span class="line"><span class="type">string</span>:                  %s</span><br><span class="line"><span class="keyword">chan</span>:                    %p </span><br><span class="line">pointer:                 %p</span><br></pre></td></tr></tbody></table></figure>
+
+<blockquote>
+<p>示例</p>
+</blockquote>
+<figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">f := <span class="number">1010.0101</span></span><br><span class="line">s := <span class="string">"hey boy!"</span></span><br><span class="line">fmt.Printf(<span class="string">"%v\n"</span>, f) <span class="comment">//1010.0101</span></span><br><span class="line">fmt.Printf(<span class="string">"%v\n"</span>, s) <span class="comment">//hey boy!</span></span><br></pre></td></tr></tbody></table></figure>
+
+<blockquote>
+<p>如果是复杂对象的话,按照如下规则进行打印：</p>
+</blockquote>
+<figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span>:            {field0 field1 ...} </span><br><span class="line">array, slice:      [elem0 elem1 ...] </span><br><span class="line">maps:              <span class="keyword">map</span>[key1:value1 key2:value2] </span><br><span class="line">pointer to above:  &amp;{}, &amp;[], &amp;<span class="keyword">map</span>[]</span><br></pre></td></tr></tbody></table></figure>
+
+<blockquote>
+<p>示例</p>
+</blockquote>
+<figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">user := User{<span class="string">"laowang"</span>, <span class="number">33</span>}</span><br><span class="line">fmt.Printf(<span class="string">"%v"</span>, user) <span class="comment">// Go默认形式 {laowang 33}</span></span><br><span class="line">fmt.Printf(<span class="string">"%#v"</span>, user) <span class="comment">//类型+值对象 day2.User{Name:"laowang", Age:33}</span></span><br><span class="line">fmt.Printf(<span class="string">"%+v"</span>, user) <span class="comment">//输出字段名和字段值形式 {Name:laowang Age:33}</span></span><br><span class="line">fmt.Printf(<span class="string">"%T"</span>, user) <span class="comment">//值类型的Go语法表示形式, day2.User</span></span><br><span class="line">fmt.Printf(<span class="string">"%%"</span>)</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="宽度"><a href="#宽度" class="headerlink" title="宽度"></a>宽度</h3><h4 id="字符串宽度控制"><a href="#字符串宽度控制" class="headerlink" title="字符串宽度控制"></a>字符串宽度控制</h4><blockquote>
+<p>宽度设置格式: 占位符中间加一个数字, 数字分正负, +: 右对齐, -: 左对齐<br>最小宽度, 不够部分可以选择补0</p>
+</blockquote>
+<figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">fmt.Printf(<span class="string">"|%s|"</span>, <span class="string">"aa"</span>) <span class="comment">// 不设置宽度</span></span><br><span class="line">fmt.Printf(<span class="string">"|%5s|"</span>, <span class="string">"aa"</span>) <span class="comment">// 5个宽度,  默认+， 右对齐</span></span><br><span class="line">fmt.Printf(<span class="string">"|%-5s|"</span>, <span class="string">"aa"</span>) <span class="comment">// 5个宽度, 左对齐</span></span><br><span class="line">fmt.Printf(<span class="string">"|%05s|"</span>, <span class="string">"aa"</span>) <span class="comment">// |000aa|</span></span><br></pre></td></tr></tbody></table></figure>
+
+<blockquote>
+<p>最大宽度, 超出的部分会被截断</p>
+</blockquote>
+<figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fmt.Printf(<span class="string">"|%.5s|"</span>, <span class="string">"xxxx"</span>) <span class="comment">// 最大宽度为5</span></span><br></pre></td></tr></tbody></table></figure>
+
+<h4 id="浮点数精度控制"><a href="#浮点数精度控制" class="headerlink" title="浮点数精度控制"></a>浮点数精度控制</h4><blockquote>
+<p>可以指定浮点型的输出宽度，同时也可以通过 宽度.精度 的语法来指定输出的精度</p>
+</blockquote>
+<figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">a := <span class="number">54.123456</span></span><br><span class="line">fmt.Printf(<span class="string">"|%f|"</span>, a)  <span class="comment">// |54.123456|</span></span><br><span class="line">fmt.Printf(<span class="string">"|%5.1f|"</span>, a)  <span class="comment">// | 54.1|</span></span><br><span class="line">fmt.Printf(<span class="string">"|%-5.1f|"</span>, a) <span class="comment">// |54.1 |</span></span><br><span class="line">fmt.Printf(<span class="string">"|%05.1f|"</span>, a) <span class="comment">// |054.1|</span></span><br></pre></td></tr></tbody></table></figure>
+
+<blockquote>
+<p>不同语言的文字宽度并不一定相同, 比如</p>
+</blockquote>
+<figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fmt.Printf(<span class="string">"|%2s|"</span>, <span class="string">"中国"</span>)</span><br><span class="line">fmt.Printf(<span class="string">"|%2s|"</span>, <span class="string">"ab"</span>)</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="格式化错误"><a href="#格式化错误" class="headerlink" title="格式化错误"></a>格式化错误</h3><blockquote>
+<p>类型错误或未知: <code>%!verb(type=value)</code></p>
+</blockquote>
+<figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Printf(<span class="string">"%d"</span>, <span class="string">"hi"</span>) <span class="comment">// %!d(string=hi)</span></span><br></pre></td></tr></tbody></table></figure>
+
+<blockquote>
+<p>太多参数: <code>%!(EXTRA type=value)</code></p>
+</blockquote>
+<figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Printf(<span class="string">"hi"</span>, <span class="string">"guys"</span>) <span class="comment">// hi%!(EXTRA string=guys)</span></span><br></pre></td></tr></tbody></table></figure>
+
+<blockquote>
+<p>太少参数: %!verb(MISSING)</p>
+</blockquote>
+<figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Printf(<span class="string">"hi%d"</span>) <span class="comment">// hi %!d(MISSING)</span></span><br></pre></td></tr></tbody></table></figure>
+
+<blockquote>
+<p>宽度/精度不是整数值: %!(BADWIDTH) or %!(BADPREC)</p>
+</blockquote>
+<figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Printf(<span class="string">"%d"</span>, hi) <span class="comment">// %!d(string=hi)</span></span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<h2 id="位运算"><a href="#位运算" class="headerlink" title="位运算"></a>位运算</h2><table>
+<thead>
+<tr>
+<th>位运算符号</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>&amp;</td>
+<td>两数各对应的二进位相与</td>
+</tr>
+<tr>
+<td>｜</td>
+<td>两数各对应的二进位相或</td>
+</tr>
+<tr>
+<td>^</td>
+<td>两数各对应的二进位相异或，当两对应的二进位相异时，结果为1</td>
+</tr>
+<tr>
+<td>&lt;&lt;</td>
+<td>左移n位就是乘以2的n次方</td>
+</tr>
+<tr>
+<td>&gt;&gt;</td>
+<td>右移n位就是除以2的n次方</td>
+</tr>
+</tbody></table>
+<h3 id="位相与"><a href="#位相与" class="headerlink" title="位相与"></a>位相与</h3><figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"> a := <span class="number">1</span>             <span class="comment">//二进制  0001</span></span><br><span class="line">c := <span class="number">2</span>             <span class="comment">//二进制  0010</span></span><br><span class="line">d := <span class="number">3</span>             <span class="comment">//二进制  0011</span></span><br><span class="line">b := <span class="number">10</span>            <span class="comment">//二进制  1010</span></span><br><span class="line">fmt.Println(a &amp; b) <span class="comment">//0001 1010  echo 二进制  0000  十进制   0</span></span><br><span class="line">fmt.Println(c &amp; b) <span class="comment">//0010 1010  echo 二进制  0010  十进制   2  </span></span><br><span class="line">fmt.Println(d &amp; b) <span class="comment">//0011 1010  echo 二进制  0010  十进制   2  </span></span><br></pre></td></tr></tbody></table></figure>
+<blockquote>
+<p>从上可以发现  两对应的二进位相应时取值</p>
+</blockquote>
+<h3 id="位相或"><a href="#位相或" class="headerlink" title="位相或"></a>位相或</h3><figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"> a := <span class="number">1</span>           <span class="comment">//二进制  0001</span></span><br><span class="line">c := <span class="number">2</span>           <span class="comment">//二进制  0010</span></span><br><span class="line">d := <span class="number">3</span>           <span class="comment">//二进制  0011</span></span><br><span class="line">b := <span class="number">10</span>          <span class="comment">//二进制  1010</span></span><br><span class="line">fmt.Println(a | b) <span class="comment">//0001 1010  echo 二进制  1011  十进制   11</span></span><br><span class="line">fmt.Println(c | b) <span class="comment">//0010 1010  echo 二进制  1010  十进制   10</span></span><br><span class="line">fmt.Println(d | b) <span class="comment">//0011 1010  echo 二进制  1011  十进制   11</span></span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+
+<blockquote>
+<p>从上可以发现 两对应的二进位相对应时取值,相异时补1</p>
+</blockquote>
+<h3 id="相异或"><a href="#相异或" class="headerlink" title="相异或"></a>相异或</h3><figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"> a := <span class="number">1</span>             <span class="comment">//二进制  0001</span></span><br><span class="line">c := <span class="number">2</span>             <span class="comment">//二进制  0010</span></span><br><span class="line">d := <span class="number">3</span>             <span class="comment">//二进制  0011</span></span><br><span class="line">b := <span class="number">10</span>            <span class="comment">//二进制  1010</span></span><br><span class="line">fmt.Println(a ^ b) <span class="comment">//0001 1010  echo 二进制  1011  十进制   11</span></span><br><span class="line">fmt.Println(c ^ b) <span class="comment">//0010 1010  echo 二进制  1000  十进制   8</span></span><br><span class="line">fmt.Println(d ^ b) <span class="comment">//0011 1010  echo 二进制  1001  十进制   9</span></span><br></pre></td></tr></tbody></table></figure>
+
+<blockquote>
+<p>从上可以发现,两对应的二进位相异时补1,相对应时为0</p>
+</blockquote>
+<h3 id="左移运算"><a href="#左移运算" class="headerlink" title="左移运算"></a>左移运算</h3><figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a :=<span class="number">1</span>  <span class="comment">//二进制  0001</span></span><br><span class="line">fmt.Println(a &lt;&lt; <span class="number">3</span>) <span class="comment">//二进制  1000  十进制   8   1*2*2*2</span></span><br><span class="line">a :=<span class="number">2</span></span><br><span class="line">fmt.Println(a &lt;&lt; <span class="number">3</span>)<span class="comment">//二进制   10000 十进制   16  2*2*2*2</span></span><br></pre></td></tr></tbody></table></figure>
+
+<blockquote>
+<p>从上可以发现，左移n位就是乘以2的n次方</p>
+</blockquote>
+<h3 id="右移运算"><a href="#右移运算" class="headerlink" title="右移运算"></a>右移运算</h3><figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a := <span class="number">3</span> <span class="comment">//二进制  0011</span></span><br><span class="line">fmt.Println(a &gt;&gt; <span class="number">1</span>) <span class="comment">//二进制 0001 十进制  1</span></span><br><span class="line">fmt.Println(a &gt;&gt; <span class="number">2</span>)<span class="comment">//二进制 0000  十进制  0</span></span><br><span class="line">fmt.Println(a &gt;&gt; <span class="number">3</span>)<span class="comment">//二进制 0000  十进制  0</span></span><br></pre></td></tr></tbody></table></figure>
+
+<blockquote>
+<p>从上可以发现，右移n位就是除以2的n次方</p>
+</blockquote>
+<h2 id="Slice-切片"><a href="#Slice-切片" class="headerlink" title="Slice 切片"></a>Slice 切片</h2><h3 id="声明与赋值"><a href="#声明与赋值" class="headerlink" title="声明与赋值"></a>声明与赋值</h3><figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> slice = <span class="built_in">make</span>([]<span class="type">int</span>)   <span class="comment">//基本声明表达式 len==0  cap==0 </span></span><br><span class="line"><span class="keyword">var</span> slice = <span class="built_in">make</span>([]<span class="keyword">type</span>,<span class="built_in">len</span>,<span class="built_in">cap</span>)  <span class="comment">//完整声明表达式  type==类型   len==长度 cap==容量</span></span><br><span class="line"><span class="keyword">var</span> demo  = <span class="built_in">make</span>([]<span class="type">int</span>,<span class="number">10</span>,<span class="number">10</span>)   <span class="comment">//这样也可以但是默认  len==0  cap==0 </span></span><br><span class="line">a :=[]<span class="type">int</span>{<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">6</span>}   <span class="comment">//初始化</span></span><br><span class="line"></span><br><span class="line">a := []<span class="type">int</span>{<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>}   <span class="comment">//数组赋值给切片</span></span><br><span class="line">b  := a[:]  </span><br><span class="line">C  := b</span><br><span class="line">c[<span class="number">1</span>] =<span class="number">100</span>   <span class="comment">//b和c的切片都是同一个底层数组  这个时候b[1]也是 100  如果不想同一个数组底层需要使用内置函数copy(destSlice,Silce []T)</span></span><br></pre></td></tr></tbody></table></figure>
+<blockquote>
+<p>1.切片的本质就是对底层数组的封装，它包含了三个信息：底层数组的指针、切片的长度（len）和切片的容量（cap）。<br>2.对于数组，指向数组的指针，或切片a(注意不能是字符串)支持完整切片表达式<br>3.数组赋值给切片后 ,切片任何的操作都不会影响原数组<br>4.两个切片共享一个底层数组,任何一个有改动另一个也会受到影响</p>
+</blockquote>
+<h3 id="copy"><a href="#copy" class="headerlink" title="copy"></a>copy</h3><figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">a := []<span class="type">int</span>{<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>}</span><br><span class="line">b := <span class="built_in">make</span>([]<span class="type">int</span>, <span class="number">5</span>, <span class="number">5</span>)</span><br><span class="line"><span class="built_in">copy</span>(b, a) <span class="comment">//使用copy()函数将切片a中的元素复制到切片b</span></span><br><span class="line">b[<span class="number">0</span>] = <span class="number">100</span></span><br><span class="line">fmt.Printf(<span class="string">"a切片的数据是:%v,切片的地址是:%p\n"</span>, a, &amp;a) <span class="comment">//a切片的数据是:[1 2 3 4 5],切片的地址是:0x1400000c030</span></span><br><span class="line">fmt.Printf(<span class="string">"b切片的数据是:%v,切片的地址是:%p\n"</span>, b, &amp;b)<span class="comment">//b切片的数据是:[100 2 3 4 5],切片的地址是:0x1400000c048</span></span><br></pre></td></tr></tbody></table></figure>
+
+<blockquote>
+<p>copy 函数会重新开辟处新的内存,两个数据值改变互不影响</p>
+</blockquote>
+<h3 id="append"><a href="#append" class="headerlink" title="append"></a>append</h3><figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">slices := []<span class="type">string</span>{<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"c"</span>, <span class="string">"d"</span>, <span class="string">"e"</span>}</span><br><span class="line">	<span class="comment">//添加元素</span></span><br><span class="line">slices = <span class="built_in">append</span>(slices, <span class="string">"f"</span>, <span class="string">"g"</span>)</span><br></pre></td></tr></tbody></table></figure>
+
+<blockquote>
+<p>append内置函数实现了自动扩容策略</p>
+</blockquote>
+<h3 id="删除元素"><a href="#删除元素" class="headerlink" title="删除元素"></a>删除元素</h3><figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">a := []<span class="type">int</span>{<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>}</span><br><span class="line">a = a[<span class="number">2</span>:]  <span class="comment">//echo  [3 4 5]</span></span><br><span class="line"></span><br><span class="line">b := []<span class="type">int</span>{<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>}</span><br><span class="line">b = b[:<span class="number">1</span>]  <span class="comment">//echo  1</span></span><br><span class="line"></span><br><span class="line">c := []<span class="type">int</span>{<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>}</span><br><span class="line">c := c[<span class="number">2</span>:<span class="number">3</span>] <span class="comment">//echo 3</span></span><br></pre></td></tr></tbody></table></figure>
+
+<blockquote>
+<p>总结  : 左边不包含  右边包含  so 左闭右合</p>
+</blockquote>
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><h3 id="基础函数"><a href="#基础函数" class="headerlink" title="基础函数"></a>基础函数</h3><h4 id="定义函数"><a href="#定义函数" class="headerlink" title="定义函数"></a>定义函数</h4><figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> <span class="function"><span class="keyword">func</span> 函数名<span class="params">(参数)</span></span>(返回值){</span><br><span class="line">    函数体</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+
+<h4 id="基本函数"><a href="#基本函数" class="headerlink" title="基本函数"></a>基本函数</h4><figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">add</span><span class="params">(x,y <span class="type">int</span> )</span></span><span class="type">int</span> {</span><br><span class="line">   <span class="keyword">return</span> x+y</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<h4 id="无返回值函数"><a href="#无返回值函数" class="headerlink" title="无返回值函数"></a>无返回值函数</h4><figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NoReturn</span><span class="params">(x,y <span class="type">int</span>)</span></span>{</span><br><span class="line">  fmt.Print(x,y)</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<h4 id="多返回值"><a href="#多返回值" class="headerlink" title="多返回值"></a>多返回值</h4><figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">sum</span><span class="params">(x,y <span class="type">int</span>)</span></span>(<span class="type">int</span>,<span class="type">int</span>){</span><br><span class="line">	<span class="keyword">return</span> x , y</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<h4 id="可变参数"><a href="#可变参数" class="headerlink" title="可变参数"></a>可变参数</h4><figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Sum</span><span class="params">(x ...<span class="type">int</span>)</span></span> <span class="type">int</span> {</span><br><span class="line">	fmt.Println(x) <span class="comment">//x是一个切片</span></span><br><span class="line">	sum := <span class="number">0</span></span><br><span class="line">	<span class="keyword">for</span> _, v := <span class="keyword">range</span> x {</span><br><span class="line">		sum = sum + v</span><br><span class="line">	}</span><br><span class="line">	<span class="keyword">return</span> sum</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<blockquote>
+<p>这里需要注意的是可变参数是切片  需要特殊处理</p>
+<p>可变参数通常要作为函数的最后一个参数。</p>
+</blockquote>
+<h4 id="可变参数的调用"><a href="#可变参数的调用" class="headerlink" title="可变参数的调用"></a>可变参数的调用</h4><figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ret5 := Sum(<span class="number">100</span>)</span><br><span class="line">ret6 := Sum(<span class="number">100</span>, <span class="number">10</span>)</span><br><span class="line">ret7 := Sum(<span class="number">100</span>, <span class="number">10</span>, <span class="number">20</span>)</span><br><span class="line">ret8 := Sum(<span class="number">100</span>, <span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>)</span><br><span class="line">fmt.Println(ret5, ret6, ret7, ret8) <span class="comment">//100 110 130 160</span></span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="函数类型与变量"><a href="#函数类型与变量" class="headerlink" title="函数类型与变量"></a>函数类型与变量</h3><h4 id="定义函数类型"><a href="#定义函数类型" class="headerlink" title="定义函数类型"></a>定义函数类型</h4><figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> calculation <span class="function"><span class="keyword">func</span><span class="params">(<span class="type">int</span>,<span class="type">int</span>)</span></span><span class="type">int</span></span><br></pre></td></tr></tbody></table></figure>
+
+<blockquote>
+<p>上面语句定义了一个<code>calculation</code>类型，它是一种函数类型，这种函数接收两个int类型的参数并且返回一个int类型的返回值。</p>
+<p>满足类似    func  FuncName (x,y int) z  就可以使用</p>
+</blockquote>
+<figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">add</span><span class="params">(x, y <span class="type">int</span>)</span></span> <span class="type">int</span> {</span><br><span class="line">	<span class="keyword">return</span> x + y</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">sub</span><span class="params">(x, y <span class="type">int</span>)</span></span> <span class="type">int</span> {</span><br><span class="line">	<span class="keyword">return</span> x - y</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<h4 id="调用方法"><a href="#调用方法" class="headerlink" title="调用方法"></a>调用方法</h4><figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>{</span><br><span class="line">  <span class="keyword">var</span> c calculation</span><br><span class="line">  c = add</span><br><span class="line">  fmt.Print(c(<span class="number">10</span>,<span class="number">20</span>))</span><br><span class="line">  </span><br><span class="line">  d := sub</span><br><span class="line">  fmt.Print(<span class="number">20</span>,<span class="number">10</span>)</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<h3 id="高阶函数"><a href="#高阶函数" class="headerlink" title="高阶函数"></a>高阶函数</h3><h4 id="函数作为参数"><a href="#函数作为参数" class="headerlink" title="函数作为参数"></a>函数作为参数</h4><figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">calc</span><span class="params">(x, y <span class="type">int</span>, op <span class="keyword">func</span>(<span class="type">int</span>, <span class="type">int</span>)</span></span> <span class="type">int</span>) <span class="type">int</span> {</span><br><span class="line">	<span class="keyword">return</span> op(x, y)</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">add</span><span class="params">(x, y <span class="type">int</span>)</span></span> <span class="type">int</span> {</span><br><span class="line">	<span class="keyword">return</span> x + y</span><br><span class="line">}</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">sud</span><span class="params">(x, y <span class="type">int</span>)</span></span> <span class="type">int</span> {</span><br><span class="line">	<span class="keyword">return</span> x - y</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<h4 id="调用"><a href="#调用" class="headerlink" title="调用"></a>调用</h4><figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">test := calc(<span class="number">10</span>, <span class="number">29</span>, add)</span><br><span class="line">fmt.Println(test) <span class="comment">//30</span></span><br></pre></td></tr></tbody></table></figure>
+
+<h4 id="函数作为返回值"><a href="#函数作为返回值" class="headerlink" title="函数作为返回值"></a>函数作为返回值</h4><figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">do</span><span class="params">(x <span class="type">string</span>)</span></span> (<span class="function"><span class="keyword">func</span><span class="params">(<span class="type">int</span>, <span class="type">int</span>)</span></span> <span class="type">int</span>, <span class="type">error</span>) {</span><br><span class="line">	<span class="keyword">switch</span> x {</span><br><span class="line">	<span class="keyword">case</span> <span class="string">"+"</span>:</span><br><span class="line">		<span class="keyword">return</span> add, <span class="literal">nil</span></span><br><span class="line">	<span class="keyword">case</span> <span class="string">"-"</span>:</span><br><span class="line">		<span class="keyword">return</span> sud, <span class="literal">nil</span></span><br><span class="line">	<span class="keyword">default</span>:</span><br><span class="line">		err := errors.New(<span class="string">"哈哈哈"</span>)</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, err</span><br><span class="line">	}</span><br><span class="line">}</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">add</span><span class="params">(x, y <span class="type">int</span>)</span></span> <span class="type">int</span> {</span><br><span class="line">	<span class="keyword">return</span> x + y</span><br><span class="line">}</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">sud</span><span class="params">(x, y <span class="type">int</span>)</span></span> <span class="type">int</span> {</span><br><span class="line">	<span class="keyword">return</span> x - y</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<h4 id="调用-1"><a href="#调用-1" class="headerlink" title="调用"></a>调用</h4><figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DoNum, _ := do(<span class="string">"+"</span>)</span><br><span class="line">fmt.Println(DoNum(<span class="number">10</span>, <span class="number">20</span>)) <span class="comment">//30</span></span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="匿名函数"><a href="#匿名函数" class="headerlink" title="匿名函数"></a>匿名函数</h3><h4 id="匿名函数保存到变量"><a href="#匿名函数保存到变量" class="headerlink" title="匿名函数保存到变量"></a>匿名函数保存到变量</h4><figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">adds := <span class="function"><span class="keyword">func</span><span class="params">(x, y <span class="type">int</span>)</span></span> <span class="type">int</span> {</span><br><span class="line">		<span class="keyword">return</span> x + y</span><br><span class="line">	}</span><br><span class="line">fmt.Println(adds(<span class="number">10</span>, <span class="number">30</span>)) <span class="comment">//30</span></span><br></pre></td></tr></tbody></table></figure>
+<h4 id="自运行匿名函数"><a href="#自运行匿名函数" class="headerlink" title="自运行匿名函数"></a>自运行匿名函数</h4><figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">test := <span class="function"><span class="keyword">func</span><span class="params">(x, y <span class="type">int</span>)</span></span> <span class="type">int</span> {</span><br><span class="line">		<span class="keyword">return</span> x + y</span><br><span class="line">	}(<span class="number">10</span>, <span class="number">20</span>)</span><br><span class="line">	fmt.Println(test) <span class="comment">//30</span></span><br></pre></td></tr></tbody></table></figure>
+<h3 id="闭包函数"><a href="#闭包函数" class="headerlink" title="闭包函数"></a>闭包函数</h3><blockquote>
+<p>闭包 = 函数 + 引用环境(匿名函数引用了外部的变量)</p>
+</blockquote>
+<h4 id="简单闭包函数"><a href="#简单闭包函数" class="headerlink" title="简单闭包函数"></a>简单闭包函数</h4><figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">adder</span><span class="params">(x <span class="type">int</span>)</span></span> <span class="function"><span class="keyword">func</span><span class="params">(<span class="type">int</span>)</span></span> <span class="type">int</span> {</span><br><span class="line">	<span class="keyword">return</span> <span class="function"><span class="keyword">func</span><span class="params">(y <span class="type">int</span>)</span></span> <span class="type">int</span> {</span><br><span class="line">		x += y</span><br><span class="line">		<span class="keyword">return</span> x</span><br><span class="line">	}</span><br><span class="line">}</span><br><span class="line"><span class="keyword">var</span> f = adder(<span class="number">10</span>)</span><br><span class="line">fmt.Println(f(<span class="number">10</span>)) <span class="comment">//20</span></span><br><span class="line">fmt.Println(f(<span class="number">20</span>)) <span class="comment">//40</span></span><br><span class="line">fmt.Println(f(<span class="number">30</span>)) <span class="comment">//70</span></span><br></pre></td></tr></tbody></table></figure>
+
+<h4 id="升级版闭包函数"><a href="#升级版闭包函数" class="headerlink" title="升级版闭包函数"></a>升级版闭包函数</h4><figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">makeSuffixFunc</span><span class="params">(suffix <span class="type">string</span>)</span></span> <span class="function"><span class="keyword">func</span><span class="params">(<span class="type">string</span>)</span></span> <span class="type">string</span> {</span><br><span class="line">	<span class="keyword">return</span> <span class="function"><span class="keyword">func</span><span class="params">(name <span class="type">string</span>)</span></span> <span class="type">string</span> {</span><br><span class="line">		<span class="comment">//strings.HasSuffix 检查原始字符串是否以指定的后缀结尾</span></span><br><span class="line">		<span class="keyword">if</span> !strings.HasSuffix(name, suffix) {</span><br><span class="line">			<span class="keyword">return</span> name + suffix</span><br><span class="line">		}</span><br><span class="line">		Error := <span class="string">"这是一个执行错误的逻辑"</span></span><br><span class="line">		<span class="keyword">return</span> Error</span><br><span class="line">	}</span><br><span class="line">}</span><br><span class="line"><span class="keyword">var</span> makeFile = makeSuffixFunc(<span class="string">".jpg"</span>)</span><br><span class="line">fmt.Println(makeFile(<span class="string">"这是一个测试文件"</span>)) <span class="comment">//这是一个测试文件.jpg</span></span><br><span class="line">fmt.Println(makeFile(<span class="string">"这是一个测试文件.jpg"</span>)) <span class="comment">//这是一个执行错误的逻辑</span></span><br></pre></td></tr></tbody></table></figure>
+
+<h4 id="终极版本闭包函数"><a href="#终极版本闭包函数" class="headerlink" title="终极版本闭包函数"></a>终极版本闭包函数</h4><figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Calcs</span><span class="params">(base <span class="type">int</span>)</span></span> (<span class="function"><span class="keyword">func</span><span class="params">(<span class="type">int</span>)</span></span> <span class="type">int</span>, <span class="function"><span class="keyword">func</span><span class="params">(<span class="type">int</span>)</span></span> <span class="type">int</span>) {</span><br><span class="line">	add := <span class="function"><span class="keyword">func</span><span class="params">(i <span class="type">int</span>)</span></span> <span class="type">int</span> {</span><br><span class="line">		base += i</span><br><span class="line">		<span class="keyword">return</span> base</span><br><span class="line">	}</span><br><span class="line"></span><br><span class="line">	sub := <span class="function"><span class="keyword">func</span><span class="params">(i <span class="type">int</span>)</span></span> <span class="type">int</span> {</span><br><span class="line">		base -= i</span><br><span class="line">		<span class="keyword">return</span> base</span><br><span class="line">	}</span><br><span class="line">	<span class="keyword">return</span> add, sub</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">f1, f2 := Calcs(<span class="number">10</span>)</span><br><span class="line">fmt.Println(f1(<span class="number">1</span>), f2(<span class="number">2</span>)) <span class="comment">//11 9</span></span><br><span class="line">fmt.Println(f1(<span class="number">3</span>), f2(<span class="number">4</span>)) <span class="comment">//12 8</span></span><br><span class="line">fmt.Println(f1(<span class="number">5</span>), f2(<span class="number">6</span>)) <span class="comment">//13 7</span></span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="指针-pointer"><a href="#指针-pointer" class="headerlink" title="指针(pointer)"></a>指针(pointer)</h2><blockquote>
+<p>区别于C/C++中的指针，Go语言中的指针不能进行偏移和运算，是安全指针</p>
+<p>取地址操作符<code>&amp;</code>和取值操作符<code>*</code>是一对互补操作符，<code>&amp;</code>取出地址，<code>*</code>根据地址取出地址指向的值</p>
+<p> Go语言中的值类型（int、float、bool、string、array、struct）都有对应的指针类型 如 *int</p>
+</blockquote>
+<h3 id="初始化和赋值"><a href="#初始化和赋值" class="headerlink" title="初始化和赋值"></a>初始化和赋值</h3><figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a *<span class="type">int</span></span><br><span class="line">a = <span class="built_in">new</span>(<span class="type">int</span>)</span><br><span class="line">*a = <span class="number">10</span></span><br><span class="line"><span class="comment">//或者简写</span></span><br><span class="line">a:= <span class="built_in">new</span>(<span class="type">int</span>)</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="指针取值"><a href="#指针取值" class="headerlink" title="指针取值"></a>指针取值</h3><figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//指针取值</span></span><br><span class="line">	a := <span class="number">10</span></span><br><span class="line">	b := &amp;a <span class="comment">// 取变量a的地址，将指针保存到b中</span></span><br><span class="line">	fmt.Printf(<span class="string">"type of b:%T\n"</span>, b)  <span class="comment">//type of b:*int</span></span><br><span class="line">	c := *b <span class="comment">// 指针取值（根据指针去内存取值）</span></span><br><span class="line">	fmt.Printf(<span class="string">"type of c:%T\n"</span>, c) <span class="comment">//type of c:int</span></span><br><span class="line">	fmt.Printf(<span class="string">"value of c:%v\n"</span>, c) <span class="comment">//value of c:10</span></span><br></pre></td></tr></tbody></table></figure>
+<h2 id="结构体"><a href="#结构体" class="headerlink" title="结构体"></a>结构体</h2><h3 id="类型别名和自定义类型"><a href="#类型别名和自定义类型" class="headerlink" title="类型别名和自定义类型"></a>类型别名和自定义类型</h3><figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//将MyInt定义为int类型</span></span><br><span class="line"><span class="keyword">type</span> MyInt <span class="type">int</span></span><br><span class="line"><span class="comment">//给int类型取别名</span></span><br><span class="line"><span class="keyword">type</span> MyAliasInt = <span class="type">int</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>{</span><br><span class="line">  <span class="keyword">var</span>  a Myint</span><br><span class="line">  <span class="keyword">var</span>  b MyAliasInt</span><br><span class="line">  fmt.Prinln(<span class="string">"%T"</span>,a)  <span class="comment">//main.Myint</span></span><br><span class="line">  fmt.Prinln(<span class="string">"%T"</span>,b) <span class="comment">//int</span></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<blockquote>
+<p>结果显示a的类型是<code>main.MyInt</code>，表示main包下定义的<code>MyInt</code>类型。b的类型是<code>int</code>。<code>MyAliasInt</code>类型只会在代码中存在，编译完成时并不会有<code>MyAliasInt</code>类型。</p>
+</blockquote>
+<h3 id="结构体定义"><a href="#结构体定义" class="headerlink" title="结构体定义"></a>结构体定义</h3><blockquote>
+<p>Go语言中通过<code>struct</code>来实现面向对象<br>结构体也是一种类型</p>
+</blockquote>
+<figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> 类型名 <span class="keyword">struct</span> {</span><br><span class="line">    字段名 字段类型</span><br><span class="line">    字段名 字段类型</span><br><span class="line">    …</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<ul>
+<li>类型名：标识自定义结构体的名称，在同一个包内不能重复。</li>
+<li>字段名：表示结构体字段名。结构体中的字段名必须唯一。</li>
+<li>字段类型：表示结构体字段的具体类型</li>
+</ul>
+<figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> person <span class="keyword">struct</span> {</span><br><span class="line">	name <span class="type">string</span></span><br><span class="line">	city <span class="type">string</span></span><br><span class="line">	age  <span class="type">int8</span></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<h3 id="结构体初始化"><a href="#结构体初始化" class="headerlink" title="结构体初始化"></a>结构体初始化</h3><h4 id="键值对初始化"><a href="#键值对初始化" class="headerlink" title="键值对初始化"></a>键值对初始化</h4><figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">p5 := person{</span><br><span class="line">	name: <span class="string">"小王子"</span>,</span><br><span class="line">	city: <span class="string">"北京"</span>,</span><br><span class="line">	age:  <span class="number">18</span>,</span><br><span class="line">}</span><br><span class="line">fmt.Printf(<span class="string">"p5=%#v\n"</span>, p5) <span class="comment">//p5=main.person{name:"小王子", city:"北京", age:18}</span></span><br></pre></td></tr></tbody></table></figure>
+
+<h4 id="指针进行键值对初始化"><a href="#指针进行键值对初始化" class="headerlink" title="指针进行键值对初始化"></a>指针进行键值对初始化</h4><figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">p6 := &amp;person{</span><br><span class="line">	name: <span class="string">"小王子"</span>,</span><br><span class="line">	city: <span class="string">"北京"</span>,</span><br><span class="line">	age:  <span class="number">18</span>,</span><br><span class="line">}</span><br><span class="line">fmt.Printf(<span class="string">"p6=%#v\n"</span>, p6) <span class="comment">//p6=&amp;main.person{name:"小王子", city:"北京", age:18}</span></span><br></pre></td></tr></tbody></table></figure>
+
+<blockquote>
+<p>当某些字段没有初始值的时候，该字段可以不写。此时，没有指定初始值的字段的值就是该字段类型的零值。</p>
+</blockquote>
+<figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">p7 := &amp;person{</span><br><span class="line">	city: <span class="string">"北京"</span>,</span><br><span class="line">}</span><br><span class="line">fmt.Printf(<span class="string">"p7=%#v\n"</span>, p7) <span class="comment">//p7=&amp;main.person{name:"", city:"北京", age:0}</span></span><br></pre></td></tr></tbody></table></figure>
+
+<blockquote>
+<p>初始化结构体的时候可以简写，也就是初始化的时候不写键</p>
+</blockquote>
+<figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">p8 := &amp;person{</span><br><span class="line">	<span class="string">"沙河娜扎"</span>,</span><br><span class="line">	<span class="string">"北京"</span>,</span><br><span class="line">	<span class="number">28</span>,</span><br><span class="line">}</span><br><span class="line">fmt.Printf(<span class="string">"p8=%#v\n"</span>, p8) <span class="comment">//p8=&amp;main.person{name:"沙河娜扎", city:"北京", age:28}</span></span><br></pre></td></tr></tbody></table></figure>
+
+<blockquote>
+<p>使用这种格式初始化时，需要注意：</p>
+</blockquote>
+<ol>
+<li>必须初始化结构体的所有字段。</li>
+<li>初始值的填充顺序必须与字段在结构体中的声明顺序一致。</li>
+<li>该方式不能和键值初始化方式混用</li>
+</ol>
+<h3 id="结构体实例化"><a href="#结构体实例化" class="headerlink" title="结构体实例化"></a>结构体实例化</h3><h4 id="基本实例化"><a href="#基本实例化" class="headerlink" title="基本实例化"></a>基本实例化</h4><figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> 结构体实例 结构体类型</span><br></pre></td></tr></tbody></table></figure>
+
+<figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> person <span class="keyword">struct</span> {</span><br><span class="line">	name <span class="type">string</span></span><br><span class="line">	city <span class="type">string</span></span><br><span class="line">	age  <span class="type">int8</span></span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> {</span><br><span class="line">	<span class="keyword">var</span> p1 person</span><br><span class="line">	p1.name = <span class="string">"沙河娜扎"</span></span><br><span class="line">	p1.city = <span class="string">"北京"</span></span><br><span class="line">	p1.age = <span class="number">18</span></span><br><span class="line">	fmt.Printf(<span class="string">"p1=%v\n"</span>, p1)  <span class="comment">//p1={沙河娜扎 北京 18}</span></span><br><span class="line">	fmt.Printf(<span class="string">"p1=%#v\n"</span>, p1) <span class="comment">//p1=main.person{name:"沙河娜扎", city:"北京", age:18}</span></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<h4 id="匿名结构体"><a href="#匿名结构体" class="headerlink" title="匿名结构体"></a>匿名结构体</h4><blockquote>
+<p>临时数据结构等场景下还可以使用匿名结构体</p>
+</blockquote>
+<figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> user <span class="keyword">struct</span>{Name <span class="type">string</span>; Age <span class="type">int</span>}</span><br><span class="line">   user.Name = <span class="string">"小王子"</span></span><br><span class="line">   user.Age = <span class="number">18</span></span><br><span class="line">   fmt.Printf(<span class="string">"%#v\n"</span>, user)</span><br></pre></td></tr></tbody></table></figure>
+
+<h4 id="指针类型结构体"><a href="#指针类型结构体" class="headerlink" title="指针类型结构体"></a>指针类型结构体</h4><figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> p2 = <span class="built_in">new</span>(person)</span><br><span class="line">fmt.Printf(<span class="string">"p2=%#v\n"</span>, p2) <span class="comment">//p2=&amp;main.person{name:"", city:"", age:0}</span></span><br><span class="line"></span><br><span class="line">p2.name = <span class="string">"小王子"</span></span><br><span class="line">p2.age = <span class="number">28</span></span><br><span class="line">p2.city = <span class="string">"上海"</span></span><br><span class="line">fmt.Printf(<span class="string">"p2=%#v\n"</span>, p2) <span class="comment">//p2=&amp;main.person{name:"小王子", city:"上海", age:28}</span></span><br><span class="line">fmt.Printf(<span class="string">"%T\n"</span>, p2)     <span class="comment">//*main.person</span></span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+
+<blockquote>
+<p>指针类型结构体  使用new关键字实例化</p>
+</blockquote>
+<h4 id="取结构体的地址实例化"><a href="#取结构体的地址实例化" class="headerlink" title="取结构体的地址实例化"></a>取结构体的地址实例化</h4><figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">p3 := &amp;person{}</span><br><span class="line">fmt.Printf(<span class="string">"%T\n"</span>, p3)     <span class="comment">//*main.person</span></span><br><span class="line">fmt.Printf(<span class="string">"p3=%#v\n"</span>, p3) <span class="comment">//p3=&amp;main.person{name:"", city:"", age:0}</span></span><br><span class="line">p3.name = <span class="string">"七米"</span></span><br><span class="line">p3.age = <span class="number">30</span></span><br><span class="line">p3.city = <span class="string">"成都"</span></span><br><span class="line">fmt.Printf(<span class="string">"p3=%#v\n"</span>, p3) <span class="comment">//p3=&amp;main.person{name:"七米", city:"成都", age:30}</span></span><br></pre></td></tr></tbody></table></figure>
+
+<blockquote>
+<p>注意  不同类型的结构体不能比较，同一类型的结构体只能比较值 可以使用 reflect 包中的 DeepEqual 函数进行比较</p>
+</blockquote>
+<h4 id="结构体内存优化"><a href="#结构体内存优化" class="headerlink" title="结构体内存优化"></a>结构体内存优化</h4><p>在 Go 语言中，结构体的大小不仅会影响内存占用，还会影响结构体的性能。因此，合理地调整结构体的字段顺序可以优化结构体的大小，从而提高程序的运行效率。以下是一些常用的结构体字段调整技巧：</p>
+<ol>
+<li>将大小相同的字段放在一起：由于 Go 语言的对齐规则，结构体中大小相同的字段可以共享同一块内存区域，因此将它们放在一起可以减少结构体的总大小。</li>
+<li>把频繁访问的字段放在一起：如果结构体中有一些字段会被频繁地访问，那么将它们放在一起可以提高 CPU 缓存的命中率，从而提高程序的运行效率。</li>
+<li>避免在字段之间留空：Go 语言的对齐规则要求结构体的每个字段都必须按照自然对齐方式来布局，因此在字段之间留空会导致浪费空间。如果需要在字段之间留出空间，可以使用 padding 字段来实现。</li>
+<li>使用小尺寸的数据类型：如果一个字段的取值范围很小，那么可以考虑使用大小更小的数据类型来表示该字段，例如使用 int8 来代替 int32。</li>
+<li>优先考虑内存对齐：在进行结构体字段调整时，优先考虑 Go 语言的内存对齐规则，确保结构体的总大小是最小的。</li>
+</ol>
+<p>需要注意的是，结构体的字段顺序不仅会影响其大小和性能，还会影响其可读性和可维护性。因此，在进行结构体字段调整时，需要权衡各种因素，并选择最适合当前情况的方案。</p>
+<p>1.空结构体（没有定义任何成员变量）的大小为 0 字节。</p>
+<figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> EmptyStruct <span class="keyword">struct</span>{}</span><br><span class="line">fmt.Println(unsafe.Sizeof(EmptyStruct{})) <span class="comment">// 输出 0</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>2.包含 bool 类型成员变量的结构体的大小为 1 字节。</p>
+<figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> BoolStruct <span class="keyword">struct</span> {</span><br><span class="line">    Flag <span class="type">bool</span></span><br><span class="line">}</span><br><span class="line">fmt.Println(unsafe.Sizeof(BoolStruct{})) <span class="comment">// 输出 1</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>3.包含 int 类型成员变量的结构体的大小与平台有关，一般为 4 或 8 字节。</p>
+<figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> IntStruct <span class="keyword">struct</span> {</span><br><span class="line">    Num <span class="type">int</span></span><br><span class="line">}</span><br><span class="line">fmt.Println(unsafe.Sizeof(IntStruct{})) <span class="comment">// 输出 8（在 64 位平台上）</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>4.包含字符串类型成员变量的结构体的大小为一个指针的大小，通常为 8 字节。</p>
+<figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> StringStruct <span class="keyword">struct</span> {</span><br><span class="line">    Name <span class="type">string</span></span><br><span class="line">}</span><br><span class="line">fmt.Println(unsafe.Sizeof(StringStruct{})) <span class="comment">// 输出 8</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>5.包含数组类型成员变量的结构体的大小为数组元素大小的倍数。</p>
+<figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> ArrayStruct <span class="keyword">struct</span> {</span><br><span class="line">    Data [<span class="number">10</span>]<span class="type">int</span></span><br><span class="line">}</span><br><span class="line">fmt.Println(unsafe.Sizeof(ArrayStruct{})) <span class="comment">// 输出 80</span></span><br></pre></td></tr></tbody></table></figure>
+
+<blockquote>
+<p>需要注意的是，由于 Go 语言的内存对齐规则，结构体的大小可能会大于其成员变量的大小之和。因此，在计算结构体的大小时，需要考虑内存对齐的影响</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Go/" rel="tag"># Go</a>
+          </div>
+
+        
+
+
+        
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%BC%E5%BC%8F%E5%8C%96%E8%BE%93%E5%87%BA"><span class="nav-number">1.</span> <span class="nav-text">格式化输出</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B4%E6%95%B0%E6%A0%BC%E5%BC%8F%E5%8C%96"><span class="nav-number">1.1.</span> <span class="nav-text">整数格式化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%AE%E7%82%B9%E6%95%B0%E6%A0%BC%E5%BC%8F%E5%8C%96"><span class="nav-number">1.2.</span> <span class="nav-text">浮点数格式化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%83%E5%B0%94%E7%B1%BB%E5%9E%8B%E6%A0%BC%E5%BC%8F%E5%8C%96"><span class="nav-number">1.3.</span> <span class="nav-text">布尔类型格式化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A0%BC%E5%BC%8F%E5%8C%96"><span class="nav-number">1.4.</span> <span class="nav-text">字符串格式化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%87%E9%92%88%E6%A0%BC%E5%BC%8F%E5%8C%96"><span class="nav-number">1.5.</span> <span class="nav-text">指针格式化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%9A%E7%94%A8%E7%9A%84%E5%8D%A0%E4%BD%8D%E7%AC%A6"><span class="nav-number">1.6.</span> <span class="nav-text">通用的占位符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%BD%E5%BA%A6"><span class="nav-number">1.7.</span> <span class="nav-text">宽度</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%AE%BD%E5%BA%A6%E6%8E%A7%E5%88%B6"><span class="nav-number">1.7.1.</span> <span class="nav-text">字符串宽度控制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B5%AE%E7%82%B9%E6%95%B0%E7%B2%BE%E5%BA%A6%E6%8E%A7%E5%88%B6"><span class="nav-number">1.7.2.</span> <span class="nav-text">浮点数精度控制</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%BC%E5%BC%8F%E5%8C%96%E9%94%99%E8%AF%AF"><span class="nav-number">1.8.</span> <span class="nav-text">格式化错误</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%8D%E8%BF%90%E7%AE%97"><span class="nav-number">2.</span> <span class="nav-text">位运算</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%8D%E7%9B%B8%E4%B8%8E"><span class="nav-number">2.1.</span> <span class="nav-text">位相与</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%8D%E7%9B%B8%E6%88%96"><span class="nav-number">2.2.</span> <span class="nav-text">位相或</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B8%E5%BC%82%E6%88%96"><span class="nav-number">2.3.</span> <span class="nav-text">相异或</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%A6%E7%A7%BB%E8%BF%90%E7%AE%97"><span class="nav-number">2.4.</span> <span class="nav-text">左移运算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%B3%E7%A7%BB%E8%BF%90%E7%AE%97"><span class="nav-number">2.5.</span> <span class="nav-text">右移运算</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Slice-%E5%88%87%E7%89%87"><span class="nav-number">3.</span> <span class="nav-text">Slice 切片</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A3%B0%E6%98%8E%E4%B8%8E%E8%B5%8B%E5%80%BC"><span class="nav-number">3.1.</span> <span class="nav-text">声明与赋值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#copy"><span class="nav-number">3.2.</span> <span class="nav-text">copy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#append"><span class="nav-number">3.3.</span> <span class="nav-text">append</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E5%85%83%E7%B4%A0"><span class="nav-number">3.4.</span> <span class="nav-text">删除元素</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%BD%E6%95%B0"><span class="nav-number">4.</span> <span class="nav-text">函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E5%87%BD%E6%95%B0"><span class="nav-number">4.1.</span> <span class="nav-text">基础函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E5%87%BD%E6%95%B0"><span class="nav-number">4.1.1.</span> <span class="nav-text">定义函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E5%87%BD%E6%95%B0"><span class="nav-number">4.1.2.</span> <span class="nav-text">基本函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%97%A0%E8%BF%94%E5%9B%9E%E5%80%BC%E5%87%BD%E6%95%B0"><span class="nav-number">4.1.3.</span> <span class="nav-text">无返回值函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%9A%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="nav-number">4.1.4.</span> <span class="nav-text">多返回值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%AF%E5%8F%98%E5%8F%82%E6%95%B0"><span class="nav-number">4.1.5.</span> <span class="nav-text">可变参数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%AF%E5%8F%98%E5%8F%82%E6%95%B0%E7%9A%84%E8%B0%83%E7%94%A8"><span class="nav-number">4.1.6.</span> <span class="nav-text">可变参数的调用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%8F%98%E9%87%8F"><span class="nav-number">4.2.</span> <span class="nav-text">函数类型与变量</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E5%87%BD%E6%95%B0%E7%B1%BB%E5%9E%8B"><span class="nav-number">4.2.1.</span> <span class="nav-text">定义函数类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B0%83%E7%94%A8%E6%96%B9%E6%B3%95"><span class="nav-number">4.2.2.</span> <span class="nav-text">调用方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0"><span class="nav-number">4.3.</span> <span class="nav-text">高阶函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E4%BD%9C%E4%B8%BA%E5%8F%82%E6%95%B0"><span class="nav-number">4.3.1.</span> <span class="nav-text">函数作为参数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B0%83%E7%94%A8"><span class="nav-number">4.3.2.</span> <span class="nav-text">调用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E4%BD%9C%E4%B8%BA%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="nav-number">4.3.3.</span> <span class="nav-text">函数作为返回值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B0%83%E7%94%A8-1"><span class="nav-number">4.3.4.</span> <span class="nav-text">调用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8C%BF%E5%90%8D%E5%87%BD%E6%95%B0"><span class="nav-number">4.4.</span> <span class="nav-text">匿名函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8C%BF%E5%90%8D%E5%87%BD%E6%95%B0%E4%BF%9D%E5%AD%98%E5%88%B0%E5%8F%98%E9%87%8F"><span class="nav-number">4.4.1.</span> <span class="nav-text">匿名函数保存到变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%87%AA%E8%BF%90%E8%A1%8C%E5%8C%BF%E5%90%8D%E5%87%BD%E6%95%B0"><span class="nav-number">4.4.2.</span> <span class="nav-text">自运行匿名函数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AD%E5%8C%85%E5%87%BD%E6%95%B0"><span class="nav-number">4.5.</span> <span class="nav-text">闭包函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E9%97%AD%E5%8C%85%E5%87%BD%E6%95%B0"><span class="nav-number">4.5.1.</span> <span class="nav-text">简单闭包函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%87%E7%BA%A7%E7%89%88%E9%97%AD%E5%8C%85%E5%87%BD%E6%95%B0"><span class="nav-number">4.5.2.</span> <span class="nav-text">升级版闭包函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%88%E6%9E%81%E7%89%88%E6%9C%AC%E9%97%AD%E5%8C%85%E5%87%BD%E6%95%B0"><span class="nav-number">4.5.3.</span> <span class="nav-text">终极版本闭包函数</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%87%E9%92%88-pointer"><span class="nav-number">5.</span> <span class="nav-text">指针(pointer)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E5%92%8C%E8%B5%8B%E5%80%BC"><span class="nav-number">5.1.</span> <span class="nav-text">初始化和赋值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%87%E9%92%88%E5%8F%96%E5%80%BC"><span class="nav-number">5.2.</span> <span class="nav-text">指针取值</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E6%9E%84%E4%BD%93"><span class="nav-number">6.</span> <span class="nav-text">结构体</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B1%BB%E5%9E%8B%E5%88%AB%E5%90%8D%E5%92%8C%E8%87%AA%E5%AE%9A%E4%B9%89%E7%B1%BB%E5%9E%8B"><span class="nav-number">6.1.</span> <span class="nav-text">类型别名和自定义类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%93%E6%9E%84%E4%BD%93%E5%AE%9A%E4%B9%89"><span class="nav-number">6.2.</span> <span class="nav-text">结构体定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%93%E6%9E%84%E4%BD%93%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-number">6.3.</span> <span class="nav-text">结构体初始化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%94%AE%E5%80%BC%E5%AF%B9%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-number">6.3.1.</span> <span class="nav-text">键值对初始化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8C%87%E9%92%88%E8%BF%9B%E8%A1%8C%E9%94%AE%E5%80%BC%E5%AF%B9%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-number">6.3.2.</span> <span class="nav-text">指针进行键值对初始化</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%93%E6%9E%84%E4%BD%93%E5%AE%9E%E4%BE%8B%E5%8C%96"><span class="nav-number">6.4.</span> <span class="nav-text">结构体实例化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E5%AE%9E%E4%BE%8B%E5%8C%96"><span class="nav-number">6.4.1.</span> <span class="nav-text">基本实例化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8C%BF%E5%90%8D%E7%BB%93%E6%9E%84%E4%BD%93"><span class="nav-number">6.4.2.</span> <span class="nav-text">匿名结构体</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8C%87%E9%92%88%E7%B1%BB%E5%9E%8B%E7%BB%93%E6%9E%84%E4%BD%93"><span class="nav-number">6.4.3.</span> <span class="nav-text">指针类型结构体</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%96%E7%BB%93%E6%9E%84%E4%BD%93%E7%9A%84%E5%9C%B0%E5%9D%80%E5%AE%9E%E4%BE%8B%E5%8C%96"><span class="nav-number">6.4.4.</span> <span class="nav-text">取结构体的地址实例化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%93%E6%9E%84%E4%BD%93%E5%86%85%E5%AD%98%E4%BC%98%E5%8C%96"><span class="nav-number">6.4.5.</span> <span class="nav-text">结构体内存优化</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="StarrySky" src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">StarrySky</p>
+  <div class="site-description" itemprop="description">半梦半醒间，迷雾撩我眸，一缕轻纱寻不到红颜.亦醉亦清前，风雨赠思愁，千里人烟遇不到知己</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">1</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/StarrySkyDreamer" title="GitHub → https://github.com/StarrySkyDreamer" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+<script src="https://fastly.jsdelivr.net/gh/stevenjoezhang/live2d-widget@latest/autoload.js"></script>
+
+    </div>
+  </div></aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  © 2022 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">StarrySky</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+    </div>
+
+
+<script src="/bundle.js"></script><script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+;
+
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+;
+L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body></html>
